@@ -15,24 +15,28 @@ namespace LemonadeStand
         public string Conditions;
         private Random rng;
         //Contr
-        public Day()
+        public Day(Random rng)
         {
-            rng = new Random();
+            Customers = new List<Customer>();
+            this.rng = rng;
             Conditions = InitializeConditions();
-            Temperature = rng.Next(55, 105);
+            Temperature = this.rng.Next(55, 105);
             CreateCustomers();
         }
         //MembMeths
         private double getBaseInterest()
         {
-            return rng.Next(25, 50) / 100;
+            double output = rng.Next(25, 50);
+            output /= 100;
+            return output;
         }
         private void CreateCustomers()
         {
             int NumberOfCustomers = rng.Next(50, 110);
             for(int i = 0; i < NumberOfCustomers; i++)
             {
-                Customers.Add(new Customer(i + 1, getBaseInterest(),Temperature,Conditions));
+                double baseInterest = getBaseInterest();
+                Customers.Add(new Customer(i + 1, baseInterest,Temperature,Conditions,rng.Next(1,100)));
             }
         }
         private string InitializeConditions()

@@ -13,9 +13,14 @@ namespace LemonadeStand
         public int NumberOfWeeks;
         public List<Week> weeks;
         Store store;
+        private int dayIndex;
+        private int weekIndex;
+        private Day currentDay;
+        private Random rng;
         //Contr
         public Game()
         {
+            rng = new Random();
             store = new Store();
         }
         //MembMeth
@@ -37,8 +42,10 @@ namespace LemonadeStand
             weeks = new List<Week>();
             for(int i = 0; i < NumberOfWeeks; i++)
             {
-                weeks.Add(new Week(i + 1));
+                weeks.Add(new Week(i + 1,rng));
             }
+            dayIndex = 0;
+            weekIndex = 0;
         }
         private void displayRules()
         {
@@ -59,6 +66,7 @@ namespace LemonadeStand
         public void RunGame()
         {
             setUp();
+            mainGame();
         }
         private void setUp()
         {
@@ -73,13 +81,20 @@ namespace LemonadeStand
         {
             player.ChangeRecipe();
         }
+        private void printTodaysForecast()
+        {
+            Console.WriteLine($"Temperature: {currentDay.Temperature}");
+            Console.WriteLine($"Conditions: {currentDay.Conditions}");
+        }
         private void startOfDay()
         {
+            currentDay = weeks[weekIndex].DaysOfTheWeek[dayIndex];
             bool isDoneSettingUp = false;
             string input;
             do
             {
                 Console.Clear();
+                printTodaysForecast();
                 Console.WriteLine("1.Purchase Ingredients.");
                 Console.WriteLine("2.Change Recipe.");
                 Console.WriteLine("3.Finish today's setup.");
@@ -103,12 +118,47 @@ namespace LemonadeStand
         }
         private void openForBusiness()
         {
-
+            
+            foreach(Customer customer in currentDay.Customers)
+            {
+                if (customer.willIPurchase(player.recipe))
+                {
+                    player.CustomerSale();
+                }
+            }
+        }
+        private void displayTodaysInfo()
+        {
+            Console.Clear();
+            Console.WriteLine($"Number of cups sold today: {player.CupsSoldToday}");
+            Console.WriteLine($"Today's profit: {player.DailyProfit}");
+            Console.WriteLine($"Total profit so far: {player.TotalProfit}");
+            player.PrintResources();
+            Console.ReadLine();
+        }
+        private void changeToNextDay()
+        {
+            dayIndex++;
+            if(dayIndex == 7)
+            {
+                dayIndex = 0;
+                weekIndex++;
+            }
+        }
+        private void meltIce()
+        {
+            player.inventory.IceStock = 0;
         }
         private void mainGame()
         {
-            startOfDay();
-
+            while (weekIndex < NumberOfWeeks)
+            {
+                startOfDay();
+                openForBusiness();
+                displayTodaysInfo();
+                changeToNextDay();
+                meltIce();
+            }
         }
     }
 }

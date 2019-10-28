@@ -21,7 +21,7 @@ namespace LemonadeStand
             lemonPrice = .075;
             sugarPrice = .0825;
             cupPrice = .0325;
-            icePrice = .075;
+            icePrice = .0175;
             isDoneShopping = false;
         }
         //MembMeth

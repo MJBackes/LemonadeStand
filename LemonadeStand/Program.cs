@@ -15,6 +15,7 @@ namespace LemonadeStand
             //player.ChangeRecipe();
             //player.recipe.PrintRecipe();
             Game game = new Game();
+            game.RunGame();
             Console.ReadLine();
         }
     }

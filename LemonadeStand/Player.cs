@@ -18,12 +18,17 @@ namespace LemonadeStand
         public bool isSoldOut;
         public double DailyProfit;
         public double TotalProfit;
+        public int CupsSoldToday;
         //Contr
 
         //MembMeth
         public void UpdateTotalProfit()
         {
             TotalProfit += DailyProfit;
+        }
+        public void ResetCupsSoldToday()
+        {
+            CupsSoldToday = 0;
         }
         public void UpdateDailyProfit()
         {
@@ -104,9 +109,9 @@ namespace LemonadeStand
                 case "1":
                     return "lemon";
                 case "2":
-                    return "ice";
-                case "3":
                     return "sugar";
+                case "3":
+                    return "ice";
                 case "4":
                     return "price";
                 default:
@@ -119,15 +124,24 @@ namespace LemonadeStand
             {
                 RefillPitcher();
             }
-            if (!isSoldOut)
+            if (!checkIfSoldOut())
             {
                 SellCup();
             }
+        }
+        private bool checkIfSoldOut()
+        {
+            if(recipe.NumIceCubes > inventory.IceStock || inventory.CupStock < 1 || isSoldOut)
+            {
+                return true;
+            }
+            return false;
         }
         private void SellCup()
         {
             wallet.Money += recipe.PricePerCup;
             UpdateInventoryAfterSale();
+            CupsSoldToday++;
         }
         private void UpdateInventoryAfterSale()
         {

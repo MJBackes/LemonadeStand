@@ -19,6 +19,9 @@ namespace LemonadeStand
             CupsLeftInPitcher = 0;
         }
         //MembMeth
-
+        public void Refill()
+        {
+            CupsLeftInPitcher = PitcherSize;
+        }
     }
 }

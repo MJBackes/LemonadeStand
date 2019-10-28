@@ -22,6 +22,12 @@ namespace LemonadeStand
             CupStock = 0;
         }
         //MembMeth
-
+        public void PrintInventory()
+        {
+            Console.WriteLine($"Lemons: {LemonStock}");
+            Console.WriteLine($"Cups of Sugar: {SugarStock}");
+            Console.WriteLine($"Ice Cubes: {IceStock}");
+            Console.WriteLine($"Cups: {CupStock}");
+        }
     }
 }

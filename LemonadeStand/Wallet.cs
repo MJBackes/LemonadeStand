@@ -16,7 +16,10 @@ namespace LemonadeStand
             Money = 20.00;
         }
         //MembMeth
-
+        public void PrintWallet()
+        {
+            Console.WriteLine($"Wallet: {Money}");
+        }
 
     }
 }

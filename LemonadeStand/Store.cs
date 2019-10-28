@@ -83,84 +83,98 @@ namespace LemonadeStand
             {
                 case "lemon":
                     purchaseSize = GetPurchaseSize(player, itemName, lemonPrice);
-                    UpdatePlayerTraitsLemons(player,purchaseSize);
+                    SellLemons(player,purchaseSize);
                     break;
                 case "ice cube":
                     purchaseSize = GetPurchaseSize(player, itemName, icePrice);
-                    UpdatePlayerTraitsIce(player, purchaseSize);
+                    SellIce(player, purchaseSize);
                     break;
                 case "sugar,cup":
                     purchaseSize = GetPurchaseSize(player, itemName, sugarPrice);
-                    UpdatePlayerTraitsSugar(player, purchaseSize);
+                    SellSugar(player, purchaseSize);
                     break;
                 case "cup":
                     purchaseSize = GetPurchaseSize(player, itemName, cupPrice);
-                    UpdatePlayerTraitsCups(player, purchaseSize);
+                    SellCups(player, purchaseSize);
                     break;
                 default:
                     break;
             }
 
         }
-        private void UpdatePlayerTraitsLemons(Player player, int purchaseSize)
+        private void PrintIfPurchaseTooLarge()
+        {
+            Console.Clear();
+            Console.WriteLine("Not enough money to purchase that many.");
+            Console.ReadLine();
+        }
+        private void SellLemons(Player player, int purchaseSize)
         {
             double saleTotal = purchaseSize * lemonPrice;
             if (player.wallet.Money >= saleTotal)
             {
-                player.inventory.LemonStock += purchaseSize;
-                player.wallet.Money -= (saleTotal);
+                UpdatePlayerTraitsLemons(player, purchaseSize);
             }
             else
             {
-                Console.Clear();
-                Console.WriteLine("Not enough money to purchase that many.");
-                Console.ReadLine();
+                PrintIfPurchaseTooLarge();
             }
         }
-        private void UpdatePlayerTraitsSugar(Player player, int purchaseSize)
+        private void UpdatePlayerTraitsLemons(Player player,int purchaseSize)
+        {
+            player.inventory.LemonStock += purchaseSize;
+            player.wallet.Money -= (lemonPrice * purchaseSize);
+        }
+        private void SellSugar(Player player, int purchaseSize)
         {
             double saleTotal = purchaseSize * sugarPrice;
             if (player.wallet.Money >= saleTotal)
             {
-                player.inventory.SugarStock += purchaseSize;
-                player.wallet.Money -= (saleTotal);
+                UpdatePlayerTraitsSugar(player,purchaseSize);
             }
             else
             {
-                Console.Clear();
-                Console.WriteLine("Not enough money to purchase that many.");
-                Console.ReadLine();
+                PrintIfPurchaseTooLarge();
             }
         }
-        private void UpdatePlayerTraitsIce(Player player, int purchaseSize)
+        private void UpdatePlayerTraitsSugar(Player player, int purchaseSize)
+        {
+            player.inventory.SugarStock += purchaseSize;
+            player.wallet.Money -= (sugarPrice * purchaseSize);
+        }
+        private void SellIce(Player player, int purchaseSize)
         {
             double saleTotal = purchaseSize * icePrice;
             if (player.wallet.Money >= saleTotal)
             {
-                player.inventory.IceStock += purchaseSize;
-                player.wallet.Money -= (saleTotal);
+                UpdatePlayerTraitsIce(player, purchaseSize);
             }
             else
             {
-                Console.Clear();
-                Console.WriteLine("Not enough money to purchase that many.");
-                Console.ReadLine();
+                PrintIfPurchaseTooLarge();
             }
         }
-        private void UpdatePlayerTraitsCups(Player player, int purchaseSize)
+        private void UpdatePlayerTraitsIce(Player player, int purchaseSize)
+        {
+            player.inventory.IceStock += purchaseSize;
+            player.wallet.Money -= (icePrice * purchaseSize);
+        }
+        private void SellCups(Player player, int purchaseSize)
         {
             double saleTotal = purchaseSize * cupPrice;
             if (player.wallet.Money >= saleTotal)
             {
-                player.inventory.CupStock += purchaseSize;
-                player.wallet.Money -= (saleTotal);
+                UpdatePlayerTraitsCups(player, purchaseSize);
             }
             else
             {
-                Console.Clear();
-                Console.WriteLine("Not enough money to purchase that many.");
-                Console.ReadLine();
+                PrintIfPurchaseTooLarge();
             }
+        }
+        private void UpdatePlayerTraitsCups(Player player, int purchaseSize)
+        {
+            player.inventory.CupStock += purchaseSize;
+            player.wallet.Money -= (cupPrice * purchaseSize);
         }
     }
 }

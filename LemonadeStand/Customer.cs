@@ -8,5 +8,11 @@ namespace LemonadeStand
 {
     class Customer
     {
+        //MembVars
+
+        //Contr
+
+        //MembMeth
+
     }
 }

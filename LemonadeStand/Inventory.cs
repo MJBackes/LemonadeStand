@@ -8,5 +8,20 @@ namespace LemonadeStand
 {
     class Inventory
     {
+        //MembVars
+        public int LemonStock;
+        public int SugarStock;
+        public int IceStock;
+        public int CupStock;
+        //Contr
+        public Inventory()
+        {
+            LemonStock = 0;
+            SugarStock = 0;
+            IceStock = 0;
+            CupStock = 0;
+        }
+        //MembMeth
+
     }
 }

@@ -8,5 +8,11 @@ namespace LemonadeStand
 {
     class Game
     {
+        //MembVars
+
+        //Contr
+
+        //MembMeth
+
     }
 }

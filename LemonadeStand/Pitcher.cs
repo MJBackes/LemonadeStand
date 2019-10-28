@@ -8,5 +8,17 @@ namespace LemonadeStand
 {
     class Pitcher
     {
+
+        //MembVars
+        public int CupsLeftInPitcher;
+        public int PitcherSize;
+        //Contr
+        public Pitcher()
+        {
+            PitcherSize = 10;
+            CupsLeftInPitcher = 0;
+        }
+        //MembMeth
+
     }
 }

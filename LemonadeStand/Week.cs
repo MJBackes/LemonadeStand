@@ -8,5 +8,13 @@ namespace LemonadeStand
 {
     class Week
     {
+
+        //MembVars
+        public Day[] DaysOfTheWeek;
+        public int WeekNum;
+        //Contr
+
+        //MembMeth
+
     }
 }

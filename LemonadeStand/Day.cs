@@ -8,5 +8,14 @@ namespace LemonadeStand
 {
     class Day
     {
+
+        //MembVars
+        public List<Customer> Customers;
+        public int Temperature;
+        public List<string> Conditions;
+        //Contr
+
+        //MembMeth
+
     }
 }

@@ -8,5 +8,15 @@ namespace LemonadeStand
 {
     class Wallet
     {
+        //MembVars
+        public double Money;
+        //Contr
+        public Wallet()
+        {
+            Money = 20.00;
+        }
+        //MembMeth
+
+
     }
 }

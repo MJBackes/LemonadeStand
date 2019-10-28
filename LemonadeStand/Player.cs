@@ -16,9 +16,19 @@ namespace LemonadeStand
         public Pitcher pitcher;
         public Recipe recipe;
         public bool isSoldOut;
+        public double DailyProfit;
+        public double TotalProfit;
         //Contr
 
         //MembMeth
+        public void UpdateTotalProfit()
+        {
+            TotalProfit += DailyProfit;
+        }
+        public void UpdateDailyProfit()
+        {
+            DailyProfit = wallet.GetDailyProfit();
+        }
         public void PrintResources()
         {
             inventory.PrintInventory();

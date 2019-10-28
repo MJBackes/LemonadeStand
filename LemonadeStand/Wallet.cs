@@ -10,16 +10,23 @@ namespace LemonadeStand
     {
         //MembVars
         public double Money;
+        private double CurrentFunds;
         //Contr
         public Wallet()
         {
             Money = 20.00;
+            CurrentFunds = Money;
         }
         //MembMeth
         public void PrintWallet()
         {
             Console.WriteLine($"Wallet: {Money}");
         }
-
+        public double GetDailyProfit()
+        {
+            double profit = Money - CurrentFunds;
+            CurrentFunds = Money;
+            return profit;
+        }
     }
 }

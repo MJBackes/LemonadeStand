@@ -10,10 +10,11 @@ namespace LemonadeStand
     {
         static void Main(string[] args)
         {
-            Player player = new HumanPlayer();
-            Store store = new Store();
-            player.ChangeRecipe();
-            player.recipe.PrintRecipe();
+            //Player player = new HumanPlayer();
+            //Store store = new Store();
+            //player.ChangeRecipe();
+            //player.recipe.PrintRecipe();
+            Game game = new Game();
             Console.ReadLine();
         }
     }

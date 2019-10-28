@@ -18,15 +18,16 @@ namespace LemonadeStand
         //Contr
         public Store()
         {
-            lemonPrice = .10;
-            sugarPrice = .125;
-            cupPrice = .0125;
-            icePrice = .15;
+            lemonPrice = .075;
+            sugarPrice = .0825;
+            cupPrice = .0325;
+            icePrice = .075;
             isDoneShopping = false;
         }
         //MembMeth
-        public void GoToStore(Player player)
+        public void SellToPlayer(Player player)
         {
+            isDoneShopping = false;
             do
             {
                 SellItem(player);

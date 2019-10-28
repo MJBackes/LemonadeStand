@@ -16,7 +16,7 @@ namespace LemonadeStand
         //Contr
         public Pitcher()
         {
-            PitcherSize = 10;
+            PitcherSize = 25;
             CupsLeftInPitcher = 0;
             isEmpty = true;
         }

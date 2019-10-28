@@ -12,16 +12,26 @@ namespace LemonadeStand
         //MembVars
         public int CupsLeftInPitcher;
         public int PitcherSize;
+        public bool isEmpty;
         //Contr
         public Pitcher()
         {
             PitcherSize = 10;
             CupsLeftInPitcher = 0;
+            isEmpty = true;
         }
         //MembMeth
         public void Refill()
         {
             CupsLeftInPitcher = PitcherSize;
+            isEmpty = false;
+        }
+        public void CheckIfEmpty()
+        {
+            if(CupsLeftInPitcher == 0)
+            {
+                isEmpty = true;
+            }
         }
     }
 }

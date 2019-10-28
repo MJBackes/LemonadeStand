@@ -13,8 +13,19 @@ namespace LemonadeStand
         public Day[] DaysOfTheWeek;
         public int WeekNum;
         //Contr
-
+        public Week(int number)
+        {
+            WeekNum = number;
+            DaysOfTheWeek = new Day[7];
+            FillDayArray();
+        }
         //MembMeth
-
+        private void FillDayArray()
+        {
+            for(int i = 0; i < DaysOfTheWeek.Length; i++)
+            {
+                DaysOfTheWeek[i] = new Day();
+            }
+        }
     }
 }

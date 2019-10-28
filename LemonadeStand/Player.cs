@@ -103,5 +103,28 @@ namespace LemonadeStand
                     return "return";
             }
         }
+        public void CustomerSale()
+        {
+            if (pitcher.isEmpty)
+            {
+                RefillPitcher();
+            }
+            if (!isSoldOut)
+            {
+                SellCup();
+            }
+        }
+        private void SellCup()
+        {
+            wallet.Money += recipe.PricePerCup;
+            UpdateInventoryAfterSale();
+        }
+        private void UpdateInventoryAfterSale()
+        {
+            pitcher.CupsLeftInPitcher--;
+            pitcher.CheckIfEmpty();
+            inventory.IceStock -= recipe.NumIceCubes;
+            inventory.CupStock--;
+        }
     }
 }

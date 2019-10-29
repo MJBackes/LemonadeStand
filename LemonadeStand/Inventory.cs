@@ -29,5 +29,18 @@ namespace LemonadeStand
             Console.WriteLine($"Ice Cubes: {IceStock}");
             Console.WriteLine($"Cups: {CupStock}");
         }
+        public void MeltIceAtEndOfDay()
+        {
+            IceStock = 0;
+        }
+        public void SpoilLemons(Random rng)
+        {
+            double coinFlip = rng.Next(0, 1);
+            if(coinFlip > .5)
+            {
+                int lemonsSpoiled = rng.Next(1, 9);
+                LemonStock -= lemonsSpoiled;
+            }
+        }
     }
 }

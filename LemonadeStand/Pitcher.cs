@@ -33,5 +33,10 @@ namespace LemonadeStand
                 isEmpty = true;
             }
         }
+        public void EmptyPitcherAtEndOfDay()
+        {
+            CupsLeftInPitcher = 0;
+            CheckIfEmpty();
+        }
     }
 }

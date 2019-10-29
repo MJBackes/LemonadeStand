@@ -156,14 +156,7 @@ namespace LemonadeStand
             inventory.IceStock -= recipe.NumIceCubes;
             inventory.CupStock--;
         }
-        public void EmptyPitcherAtEndOfDay()
-        {
-            pitcher.CupsLeftInPitcher = 0;
-            pitcher.CheckIfEmpty();
-        }
-        public void MeltIceAtEndOfDay()
-        {
-            inventory.IceStock = 0;
-        }
+        
+        
     }
 }

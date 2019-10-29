@@ -11,7 +11,7 @@ namespace LemonadeStand
         //MembVars
         public double Interest;
         public int CustomerNumber;
-        private int preferedNumberOfIceCubes;
+        private double preferedNumberOfIceCubes;
         private double variance;
         private Random rng;
         //Contr
@@ -24,10 +24,10 @@ namespace LemonadeStand
             this.rng = rng;
         }
         //MembMeth
-        private int getNumberOfCubes(double temp)
+        private double getNumberOfCubes(double temp)
         {
             double cubes = (temp - 50) / 5;
-            return Convert.ToInt32(cubes);
+            return cubes;
         }
         private double getInterest(double baseInterest,double temp,string conditions)
         {
@@ -76,12 +76,12 @@ namespace LemonadeStand
         private void adjustInterestBasedOnIce(int cubesOfIce)
         {
             double desiredCubes = cubesOfIce;
-            double adjustment = ((desiredCubes + 1) / (preferedNumberOfIceCubes + 1));
+            double adjustment = (desiredCubes  / preferedNumberOfIceCubes);
             Interest *= adjustment;
         }
         private void adjustInterestBasedOnPrice(double price)
         {
-            double desiredPrice = rng.Next(12, 17);
+            double desiredPrice = rng.Next(9, 14);
             desiredPrice /= 100;
             double adjustment = (desiredPrice / price);
             Interest *= adjustment;

@@ -159,8 +159,9 @@ namespace LemonadeStand
         }
         private void endOfDayCleanUp(Player player)
         {
-            player.MeltIceAtEndOfDay();
-            player.EmptyPitcherAtEndOfDay();
+            player.inventory.MeltIceAtEndOfDay();
+            player.inventory.SpoilLemons(rng);
+            player.pitcher.EmptyPitcherAtEndOfDay();
             player.ResetCupsSoldToday();
         }
         private void mainGame()
@@ -179,7 +180,7 @@ namespace LemonadeStand
         private void endOfGameText(Player player)
         {
             Console.Clear();
-            Console.WriteLine("Final Statistics:");
+            Console.WriteLine($"{player.Name}'s Final Statistics:");
             Console.WriteLine($"Total Profit: {player.TotalProfit}");
             Console.WriteLine($"Total Cups Sold: {player.TotalCupsSold}");
         }

@@ -16,6 +16,7 @@ namespace LemonadeStand
         private int dayIndex;
         private int weekIndex;
         private Day currentDay;
+        private Weather todaysForecast;
         private Random rng; //Putting this here doesn't make the most sense from an OOP perspective, but instanciating the Randoms
                            //in the appropriate classes led to them having the same seed and therefore the same output, so I moved
                           // it here in order to pass around the reference to a single Random object.
@@ -35,7 +36,7 @@ namespace LemonadeStand
             do
             {
                 isValidInput = int.TryParse(Console.ReadLine(), out input);
-            } while (!isValidInput);
+            } while (!isValidInput || input > 5 || input < 1);
             return input;
         }
         private void instanciateWeeks()
@@ -87,26 +88,25 @@ namespace LemonadeStand
         }
         private void printTodaysForecast()
         {
-            double coinFlip = rng.NextDouble();
-            if(coinFlip > .25)
-            {
-                printAccurateForecast();
-            }
-            else
-            {
-                printInaccurateForecast();
-            }
+            Console.WriteLine($"Temperature: {todaysForecast.Temperature}");
+            Console.WriteLine($"Conditions: {todaysForecast.Conditions}");
         }
         private void printAccurateForecast()
         {
             Console.WriteLine($"Temperature: {currentDay.weather.Temperature}");
             Console.WriteLine($"Conditions: {currentDay.weather.Conditions}");
         }
-        private void printInaccurateForecast()
+        private void getTodaysForecast()
         {
-            Weather forecast = new Weather(rng);
-            Console.WriteLine($"Temperature: {forecast.Temperature}");
-            Console.WriteLine($"Conditions: {forecast.Conditions}");
+            double coinFlip = rng.NextDouble();
+            if (coinFlip > .25)
+            {
+                todaysForecast = currentDay.weather;
+            }
+            else
+            {
+                todaysForecast = new Weather(rng);
+            }
         }
         private void printTodaysDate()
         {
@@ -117,6 +117,7 @@ namespace LemonadeStand
             currentDay = weeks[weekIndex].DaysOfTheWeek[dayIndex];
             bool isDoneSettingUp = false;
             string input;
+            getTodaysForecast();
             do
             {
                 Console.Clear();
@@ -176,8 +177,8 @@ namespace LemonadeStand
         }
         private void updatePlayerStats(Player player)
         {
-            player.UpdateDailyProfit();
-            player.UpdateTotalProfit();
+            player.wallet.UpdateDailyProfit();
+            player.wallet.UpdateTotalProfit();
             player.UpdateTotalCupsSold();
         }
         private void endOfDayCleanUp(Player player)

@@ -15,6 +15,8 @@ namespace LemonadeStand
         private double cupPrice;
         private double icePrice;
         private bool isDoneShopping;
+        private double largeDiscount;
+        private double smallDiscount;
         //Contr
         public Store()
         {
@@ -22,6 +24,8 @@ namespace LemonadeStand
             sugarPrice = .0825;
             cupPrice = .0325;
             icePrice = .0175;
+            largeDiscount = .85;
+            smallDiscount = .9;
             isDoneShopping = false;
         }
         //MembMeth
@@ -33,17 +37,19 @@ namespace LemonadeStand
                 SellItem(player);
             } while (!isDoneShopping);
         }
-        private int GetPurchaseSize(Player player,string itemName,double itemPrice)
+        private int GetPurchaseSize(Player player,string itemName,double itemPrice,int smallDiscountThreshold,int largeDiscountThreshold)
         {
             int purchaseSize;
             bool isValidInput;
             Console.WriteLine($"Price per {itemName}: {itemPrice}");
+            Console.WriteLine($"10% Discount on purchases of {smallDiscountThreshold} or more.");
+            Console.WriteLine($"15% Discount on purchases of {largeDiscountThreshold} or more.");
             Console.WriteLine("Your Wallet: " + player.wallet.Money);
             Console.WriteLine($"How many {itemName}(s) would you like to buy?");
             do
             {
                 isValidInput = int.TryParse(Console.ReadLine(), out purchaseSize);
-            } while (!isValidInput);
+            } while (!isValidInput || purchaseSize < 0);
             return purchaseSize;
         }
         private string GetItemToSell(Player player)
@@ -83,19 +89,19 @@ namespace LemonadeStand
             switch (itemName)
             {
                 case "lemon":
-                    purchaseSize = GetPurchaseSize(player, itemName, lemonPrice);
+                    purchaseSize = GetPurchaseSize(player, itemName, lemonPrice, 25, 50);
                     SellLemons(player,purchaseSize);
                     break;
                 case "ice cube":
-                    purchaseSize = GetPurchaseSize(player, itemName, icePrice);
+                    purchaseSize = GetPurchaseSize(player, itemName, icePrice, 100, 250);
                     SellIce(player, purchaseSize);
                     break;
                 case "sugar,cup":
-                    purchaseSize = GetPurchaseSize(player, itemName, sugarPrice);
+                    purchaseSize = GetPurchaseSize(player, itemName, sugarPrice, 20, 40);
                     SellSugar(player, purchaseSize);
                     break;
                 case "cup":
-                    purchaseSize = GetPurchaseSize(player, itemName, cupPrice);
+                    purchaseSize = GetPurchaseSize(player, itemName, cupPrice, 100, 250);
                     SellCups(player, purchaseSize);
                     break;
                 default:
@@ -111,7 +117,7 @@ namespace LemonadeStand
         }
         private void SellLemons(Player player, int purchaseSize)
         {
-            double saleTotal = purchaseSize * lemonPrice;
+            double saleTotal = getSaleTotalLemons(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
                 UpdatePlayerTraitsLemons(player, purchaseSize);
@@ -126,9 +132,24 @@ namespace LemonadeStand
             player.inventory.LemonStock += purchaseSize;
             player.wallet.Money -= (lemonPrice * purchaseSize);
         }
+        private double getSaleTotalLemons(int purchaseSize)
+        {
+            if(purchaseSize > 50)
+            {
+                return purchaseSize * lemonPrice * largeDiscount;
+            }
+            else if(purchaseSize > 25)
+            {
+                return purchaseSize * lemonPrice * smallDiscount;
+            }
+            else
+            {
+                return purchaseSize * lemonPrice;
+            }
+        }
         private void SellSugar(Player player, int purchaseSize)
         {
-            double saleTotal = purchaseSize * sugarPrice;
+            double saleTotal = getSaleTotalSugar(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
                 UpdatePlayerTraitsSugar(player,purchaseSize);
@@ -143,9 +164,24 @@ namespace LemonadeStand
             player.inventory.SugarStock += purchaseSize;
             player.wallet.Money -= (sugarPrice * purchaseSize);
         }
+        private double getSaleTotalSugar(int purchaseSize)
+        {
+            if (purchaseSize > 40)
+            {
+                return purchaseSize * sugarPrice * largeDiscount;
+            }
+            else if (purchaseSize > 20)
+            {
+                return purchaseSize * sugarPrice * smallDiscount;
+            }
+            else
+            {
+                return purchaseSize * sugarPrice;
+            }
+        }
         private void SellIce(Player player, int purchaseSize)
         {
-            double saleTotal = purchaseSize * icePrice;
+            double saleTotal = getSaleTotalIce(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
                 UpdatePlayerTraitsIce(player, purchaseSize);
@@ -160,9 +196,24 @@ namespace LemonadeStand
             player.inventory.IceStock += purchaseSize;
             player.wallet.Money -= (icePrice * purchaseSize);
         }
+        private double getSaleTotalIce(int purchaseSize)
+        {
+            if (purchaseSize > 250)
+            {
+                return purchaseSize * icePrice * largeDiscount;
+            }
+            else if (purchaseSize > 100)
+            {
+                return purchaseSize * icePrice * smallDiscount;
+            }
+            else
+            {
+                return purchaseSize * icePrice;
+            }
+        }
         private void SellCups(Player player, int purchaseSize)
         {
-            double saleTotal = purchaseSize * cupPrice;
+            double saleTotal = getSaleTotalCups(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
                 UpdatePlayerTraitsCups(player, purchaseSize);
@@ -176,6 +227,21 @@ namespace LemonadeStand
         {
             player.inventory.CupStock += purchaseSize;
             player.wallet.Money -= (cupPrice * purchaseSize);
+        }
+        private double getSaleTotalCups(int purchaseSize)
+        {
+            if (purchaseSize > 250)
+            {
+                return purchaseSize * cupPrice * largeDiscount;
+            }
+            else if (purchaseSize > 100)
+            {
+                return purchaseSize * cupPrice * smallDiscount;
+            }
+            else
+            {
+                return purchaseSize * cupPrice;
+            }
         }
     }
 }

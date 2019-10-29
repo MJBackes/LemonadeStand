@@ -23,10 +23,7 @@ namespace LemonadeStand
         //Contr
 
         //MembMeth
-        public void UpdateTotalProfit()
-        {
-            TotalProfit += DailyProfit;
-        }
+
         public void UpdateTotalCupsSold()
         {
             TotalCupsSold += CupsSoldToday;
@@ -35,10 +32,7 @@ namespace LemonadeStand
         {
             CupsSoldToday = 0;
         }
-        public void UpdateDailyProfit()
-        {
-            DailyProfit = wallet.GetDailyProfit();
-        }
+        
         public void PrintResources()
         {
             inventory.PrintInventory();

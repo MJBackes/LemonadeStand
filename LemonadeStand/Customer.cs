@@ -75,8 +75,8 @@ namespace LemonadeStand
         }
         private void adjustInterestBasedOnIce(int cubesOfIce)
         {
-            double desiredCubes = cubesOfIce;
-            double adjustment = (desiredCubes  / preferedNumberOfIceCubes);
+            double actualNumberOfIceCubes = cubesOfIce;
+            double adjustment = (actualNumberOfIceCubes  / preferedNumberOfIceCubes);
             Interest *= adjustment;
         }
         private void adjustInterestBasedOnPrice(double price)
@@ -84,6 +84,7 @@ namespace LemonadeStand
             double desiredPrice = rng.Next(9, 14);
             desiredPrice /= 100;
             double adjustment = (desiredPrice / price);
+            adjustment = Math.Pow(adjustment, 2);
             Interest *= adjustment;
         }
         private void getInterestInRecipe(Recipe recipe)

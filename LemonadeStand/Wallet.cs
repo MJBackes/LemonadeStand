@@ -11,6 +11,8 @@ namespace LemonadeStand
         //MembVars
         public double Money;
         private double CurrentFunds;
+        public double DailyProfit;
+        public double TotalProfit;
         //Contr
         public Wallet()
         {
@@ -22,12 +24,15 @@ namespace LemonadeStand
         {
             Console.WriteLine($"Wallet: {Money}");
         }
-        public double GetDailyProfit()
+        public void UpdateDailyProfit()
         {
             Money = Math.Floor(Money * 100) / 100;
-            double profit = Money - CurrentFunds;
+            DailyProfit = Money - CurrentFunds;
             CurrentFunds = Money;
-            return profit;
+        }
+        public void UpdateTotalProfit()
+        {
+            TotalProfit += DailyProfit;
         }
     }
 }

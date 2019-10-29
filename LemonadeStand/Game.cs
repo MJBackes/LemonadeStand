@@ -67,6 +67,7 @@ namespace LemonadeStand
         {
             setUp();
             mainGame();
+            endOfGameText(player);
         }
         private void setUp()
         {
@@ -83,8 +84,12 @@ namespace LemonadeStand
         }
         private void printTodaysForecast()
         {
-            Console.WriteLine($"Temperature: {currentDay.Temperature}");
-            Console.WriteLine($"Conditions: {currentDay.Conditions}");
+            Console.WriteLine($"Temperature: {currentDay.weather.Temperature}");
+            Console.WriteLine($"Conditions: {currentDay.weather.Conditions}");
+        }
+        private void printTodaysDate()
+        {
+            Console.WriteLine("Week: " + (weekIndex + 1) + " - Day: " + (dayIndex + 1));
         }
         private void startOfDay()
         {
@@ -94,6 +99,7 @@ namespace LemonadeStand
             do
             {
                 Console.Clear();
+                printTodaysDate();
                 printTodaysForecast();
                 Console.WriteLine("1.Purchase Ingredients.");
                 Console.WriteLine("2.Change Recipe.");
@@ -121,7 +127,7 @@ namespace LemonadeStand
             
             foreach(Customer customer in currentDay.Customers)
             {
-                if (customer.willIPurchase(player.recipe))
+                if (customer.WillIPurchase(player.recipe))
                 {
                     player.CustomerSale();
                 }
@@ -145,9 +151,17 @@ namespace LemonadeStand
                 weekIndex++;
             }
         }
-        private void meltIce()
+        private void updatePlayerStats(Player player)
         {
-            player.inventory.IceStock = 0;
+            player.UpdateDailyProfit();
+            player.UpdateTotalProfit();
+            player.UpdateTotalCupsSold();
+        }
+        private void endOfDayCleanUp(Player player)
+        {
+            player.MeltIceAtEndOfDay();
+            player.EmptyPitcherAtEndOfDay();
+            player.ResetCupsSoldToday();
         }
         private void mainGame()
         {
@@ -155,10 +169,19 @@ namespace LemonadeStand
             {
                 startOfDay();
                 openForBusiness();
+                updatePlayerStats(player);
                 displayTodaysInfo();
                 changeToNextDay();
-                meltIce();
+                endOfDayCleanUp(player);
             }
+
+        }
+        private void endOfGameText(Player player)
+        {
+            Console.Clear();
+            Console.WriteLine("Final Statistics:");
+            Console.WriteLine($"Total Profit: {player.TotalProfit}");
+            Console.WriteLine($"Total Cups Sold: {player.TotalCupsSold}");
         }
     }
 }

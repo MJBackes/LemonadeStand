@@ -24,6 +24,7 @@ namespace LemonadeStand
         }
         public double GetDailyProfit()
         {
+            Money = Math.Floor(Money * 100) / 100;
             double profit = Money - CurrentFunds;
             CurrentFunds = Money;
             return profit;

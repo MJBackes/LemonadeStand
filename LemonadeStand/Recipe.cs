@@ -72,7 +72,7 @@ namespace LemonadeStand
             {
                 isValidInput = double.TryParse(Console.ReadLine(), out PricePerCup);
             } while (!isValidInput || PricePerCup < 0);
-            PricePerCup -= (PricePerCup % .01);
+            PricePerCup = Math.Round(PricePerCup * 100) / 100;
         }
     }
 }

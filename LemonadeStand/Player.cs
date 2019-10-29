@@ -18,6 +18,7 @@ namespace LemonadeStand
         public bool isSoldOut;
         public double DailyProfit;
         public double TotalProfit;
+        public int TotalCupsSold;
         public int CupsSoldToday;
         //Contr
 
@@ -25,6 +26,10 @@ namespace LemonadeStand
         public void UpdateTotalProfit()
         {
             TotalProfit += DailyProfit;
+        }
+        public void UpdateTotalCupsSold()
+        {
+            TotalCupsSold += CupsSoldToday;
         }
         public void ResetCupsSoldToday()
         {
@@ -141,6 +146,7 @@ namespace LemonadeStand
         {
             wallet.Money += recipe.PricePerCup;
             UpdateInventoryAfterSale();
+            pitcher.CheckIfEmpty();
             CupsSoldToday++;
         }
         private void UpdateInventoryAfterSale()
@@ -149,6 +155,15 @@ namespace LemonadeStand
             pitcher.CheckIfEmpty();
             inventory.IceStock -= recipe.NumIceCubes;
             inventory.CupStock--;
+        }
+        public void EmptyPitcherAtEndOfDay()
+        {
+            pitcher.CupsLeftInPitcher = 0;
+            pitcher.CheckIfEmpty();
+        }
+        public void MeltIceAtEndOfDay()
+        {
+            inventory.IceStock = 0;
         }
     }
 }

@@ -55,6 +55,7 @@
     <Compile Include="Recipe.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="Wallet.cs" />
+    <Compile Include="Weather.cs" />
     <Compile Include="Week.cs" />
   </ItemGroup>
   <ItemGroup>

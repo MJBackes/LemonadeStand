@@ -13,55 +13,78 @@ namespace LemonadeStand
         public int CustomerNumber;
         private int preferedNumberOfIceCubes;
         private double variance;
+        private Random rng;
         //Contr
-        public Customer(int CustNum,double baseInterest,int temp,string conditions,double varry)
+        public Customer(int CustNum,double baseInterest,double temp,string conditions,double varry,Random rng)
         {
             Interest = getInterest(baseInterest, temp, conditions);
             preferedNumberOfIceCubes = getNumberOfCubes(temp);
             CustomerNumber = CustNum;
             variance = varry / 100;
+            this.rng = rng;
         }
         //MembMeth
-        private int getNumberOfCubes(int temp)
+        private int getNumberOfCubes(double temp)
         {
             double cubes = (temp - 50) / 5;
             return Convert.ToInt32(cubes);
         }
-        private double getInterest(double baseInterest,int temp,string conditions)
+        private double getInterest(double baseInterest,double temp,string conditions)
         {
+            double rainyMultiplier = .5;
+            double cloudyMultiplier = .8;
+            double hazeyMultiplier = 1.5;
+            double windyMultiplier = .9;
+            double sunnyMultiplier = 1.25;
             double interest = baseInterest;
-            interest *= Math.Pow((temp / 60),3);
+            double tempMultiplier = temp / 60;
+            tempMultiplier = Math.Pow(tempMultiplier, 3);
+            interest *= tempMultiplier;
             switch (conditions)
             {
                 case "Rainy":
-                    return interest * .5;
+                    interest *= rainyMultiplier;
+                    return interest;
                 case "Cloudy":
-                    return interest * .8;
+                    interest *= cloudyMultiplier;
+                    return interest;
                 case "Hazey":
-                    return interest * 1.5;
+                    interest *= hazeyMultiplier;
+                    return interest;
                 case "Windy":
-                    return interest * .65;
+                    interest *= windyMultiplier;
+                    return interest;
                 case "Sunny and Clear":
-                    return interest * 1.25;
+                    interest *= sunnyMultiplier;
+                    return interest;
                 default:
                     return interest;
             }
         }
         private void adjustInterestBasedOnLemons(int numLemons)
         {
-            Interest *= numLemons / 7;
+            double desiredLemons = rng.Next(4, 7);
+            double adjustment = (numLemons / desiredLemons);
+            Interest *= adjustment;
         }
         private void adjustInterestBasedOnSugar(int cupsOfSugar)
         {
-            Interest *= cupsOfSugar / 8;
+            double desiredSugar = rng.Next(5, 7);
+            double adjustment = (cupsOfSugar / desiredSugar);
+            Interest *= adjustment;
         }
         private void adjustInterestBasedOnIce(int cubesOfIce)
         {
-            Interest *= cubesOfIce / preferedNumberOfIceCubes;
+            double desiredCubes = cubesOfIce;
+            double adjustment = ((desiredCubes + 1) / (preferedNumberOfIceCubes + 1));
+            Interest *= adjustment;
         }
         private void adjustInterestBasedOnPrice(double price)
         {
-            Interest /= price / .15;
+            double desiredPrice = rng.Next(12, 17);
+            desiredPrice /= 100;
+            double adjustment = (desiredPrice / price);
+            Interest *= adjustment;
         }
         private void getInterestInRecipe(Recipe recipe)
         {
@@ -70,7 +93,7 @@ namespace LemonadeStand
             adjustInterestBasedOnSugar(recipe.CupsSugar);
             adjustInterestBasedOnPrice(recipe.PricePerCup);
         }
-        public bool willIPurchase(Recipe recipe)
+        public bool WillIPurchase(Recipe recipe)
         {
             getInterestInRecipe(recipe);
             if (variance <= Interest)

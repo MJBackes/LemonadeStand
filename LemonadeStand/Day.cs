@@ -11,16 +11,14 @@ namespace LemonadeStand
 
         //MembVars
         public List<Customer> Customers;
-        public int Temperature;
-        public string Conditions;
+        public Weather weather;
         private Random rng;
         //Contr
         public Day(Random rng)
         {
             Customers = new List<Customer>();
             this.rng = rng;
-            Conditions = InitializeConditions();
-            Temperature = this.rng.Next(55, 105);
+            weather = new Weather(this.rng);
             CreateCustomers();
         }
         //MembMeths
@@ -36,27 +34,9 @@ namespace LemonadeStand
             for(int i = 0; i < NumberOfCustomers; i++)
             {
                 double baseInterest = getBaseInterest();
-                Customers.Add(new Customer(i + 1, baseInterest,Temperature,Conditions,rng.Next(1,100)));
+                Customers.Add(new Customer(i + 1, baseInterest,weather.Temperature,weather.Conditions,rng.Next(1,100),rng));
             }
         }
-        private string InitializeConditions()
-        {
-            int randomNumber = rng.Next(1, 6);
-            switch (randomNumber)
-            {
-                case 1:
-                    return "Rainy";
-                case 2:
-                    return "Cloudy";
-                case 3:
-                    return "Hazey";
-                case 4:
-                    return "Windy";
-                case 5:
-                    return "Sunny and Clear";
-                default:
-                    return "Rainy";
-            }
-        }
+        
     }
 }

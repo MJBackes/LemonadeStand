@@ -16,7 +16,9 @@ namespace LemonadeStand
         private int dayIndex;
         private int weekIndex;
         private Day currentDay;
-        private Random rng;
+        private Random rng; //Putting this here doesn't make the most sense from an OOP perspective, but instanciating the Randoms
+                           //in the appropriate classes led to them having the same seed and therefore the same output, so I moved
+                          // it here in order to pass around the reference to a single Random object.
         //Contr
         public Game()
         {
@@ -65,6 +67,7 @@ namespace LemonadeStand
         }
         public void RunGame()
         {
+            displayRules();
             setUp();
             mainGame();
             endOfGameText(player);
@@ -74,11 +77,11 @@ namespace LemonadeStand
             player = new HumanPlayer();
             instanciateWeeks();
         }
-        private void purchaseIngredients()
+        private void purchaseIngredients(Player player)
         {
             store.SellToPlayer(player);
         }
-        private void setRecipe()
+        private void setRecipe(Player player)
         {
             player.ChangeRecipe();
         }
@@ -109,7 +112,7 @@ namespace LemonadeStand
         {
             Console.WriteLine("Week: " + (weekIndex + 1) + " - Day: " + (dayIndex + 1));
         }
-        private void startOfDay()
+        private void startOfDay(Player player)
         {
             currentDay = weeks[weekIndex].DaysOfTheWeek[dayIndex];
             bool isDoneSettingUp = false;
@@ -127,10 +130,10 @@ namespace LemonadeStand
                 switch (input)
                 {
                     case "1":
-                        purchaseIngredients();
+                        purchaseIngredients(player);
                         break;
                     case "2":
-                        setRecipe();
+                        setRecipe(player);
                         break;
                     case "3":
                         isDoneSettingUp = true;
@@ -140,7 +143,7 @@ namespace LemonadeStand
                 }
             } while (!isDoneSettingUp);
         }
-        private void openForBusiness()
+        private void openForBusiness(Player player)
         {
             
             foreach(Customer customer in currentDay.Customers)
@@ -151,7 +154,7 @@ namespace LemonadeStand
                 }
             }
         }
-        private void displayTodaysInfo()
+        private void displayTodaysInfo(Player player)
         {
             Console.Clear();
             Console.Write("Today's actual weather:");
@@ -188,10 +191,10 @@ namespace LemonadeStand
         {
             while (weekIndex < NumberOfWeeks)
             {
-                startOfDay();
-                openForBusiness();
+                startOfDay(player);
+                openForBusiness(player);
                 updatePlayerStats(player);
-                displayTodaysInfo();
+                displayTodaysInfo(player);
                 changeToNextDay();
                 endOfDayCleanUp(player);
             }

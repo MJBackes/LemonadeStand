@@ -184,8 +184,16 @@ namespace LemonadeStand
         {
             player.inventory.MeltIceAtEndOfDay();
             player.inventory.SpoilLemons(rng);
+            printResourcesLostAtEndOfDay(player);
+            player.inventory.ResetDailyVariables();
             player.pitcher.EmptyPitcherAtEndOfDay();
             player.ResetCupsSoldToday();
+        }
+        private void printResourcesLostAtEndOfDay(Player player)
+        {
+            Console.WriteLine($"Number of Ice Cubes that melted at the end of the Day: {player.inventory.IceCubesMeltedToday}");
+            Console.WriteLine($"Number of Lemons that spoiled today: {player.inventory.LemonsSpoiledToday}");
+            Console.ReadLine();
         }
         private void mainGame()
         {

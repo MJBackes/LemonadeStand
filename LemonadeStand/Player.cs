@@ -16,8 +16,6 @@ namespace LemonadeStand
         public Pitcher pitcher;
         public Recipe recipe;
         public bool isSoldOut;
-        public double DailyProfit;
-        public double TotalProfit;
         public int TotalCupsSold;
         public int CupsSoldToday;
         //Contr

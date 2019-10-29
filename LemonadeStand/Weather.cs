@@ -11,7 +11,13 @@ namespace LemonadeStand
         //MembVars
         public double Temperature;
         public string Conditions;
+        private double probabilityOfAccurateForecast;
         private Random rng;
+        public double ProbablilityOfAccurateForecast
+        {
+            get => probabilityOfAccurateForecast;
+            set => probabilityOfAccurateForecast = Math.Floor(value * 100);
+        }
         //Contr
         public Weather(Random rng)
         {

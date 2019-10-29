@@ -9,7 +9,7 @@ namespace LemonadeStand
     class Game
     {
         //MembVars
-        public Player player;
+        public List<Player> players;
         public int NumberOfWeeks;
         public List<Week> weeks;
         Store store;
@@ -25,6 +25,7 @@ namespace LemonadeStand
         {
             rng = new Random();
             store = new Store();
+            players = new List<Player>();
         }
         //MembMeth
         private int getNumberOfWeeks()
@@ -64,6 +65,7 @@ namespace LemonadeStand
                 "       How much sugar/lemon/ice is in the lemonade");
             Console.WriteLine(" -Adjust your recipe and price in accordance with the weather in order to make more money than you\n" +
                 "spend on ingredients.");
+            Console.ReadLine();
 
         }
         public void RunGame()
@@ -71,12 +73,38 @@ namespace LemonadeStand
             displayRules();
             setUp();
             mainGame();
-            endOfGameText(player);
+            foreach (Player player in players)
+            {
+                endOfGameText(player);
+            }
         }
         private void setUp()
         {
-            player = new HumanPlayer();
+            Console.Clear();
+            instanciatePlayers();
             instanciateWeeks();
+        }
+        private void instanciatePlayers()
+        {
+            bool areAllPlayerssetUp = false;
+            string input;
+            do
+            {
+                Console.WriteLine("1.Add another player.");
+                Console.WriteLine("2.Finish adding players.");
+                input = Console.ReadLine();
+                switch (input)
+                {
+                    case "1":
+                        players.Add(new HumanPlayer());
+                        break;
+                    case "2":
+                        areAllPlayerssetUp = true;
+                        break;
+                    default:
+                        break;
+                }
+            }while(!areAllPlayerssetUp);
         }
         private void purchaseIngredients(Player player)
         {
@@ -88,8 +116,11 @@ namespace LemonadeStand
         }
         private void printTodaysForecast()
         {
-            Console.WriteLine($"Temperature: {todaysForecast.Temperature}");
-            Console.WriteLine($"Conditions: {todaysForecast.Conditions}");
+            Console.WriteLine("Today's Forecast:");
+            Console.WriteLine($"    Temperature: {todaysForecast.Temperature}");
+            Console.WriteLine($"    Conditions: {todaysForecast.Conditions}");
+            Console.WriteLine($"    Confidence: {todaysForecast.ProbablilityOfAccurateForecast}%");
+
         }
         private void printAccurateForecast()
         {
@@ -98,15 +129,18 @@ namespace LemonadeStand
         }
         private void getTodaysForecast()
         {
+            currentDay = weeks[weekIndex].DaysOfTheWeek[dayIndex];
             double coinFlip = rng.NextDouble();
-            if (coinFlip > .25)
+            double ProbablilityOfAccurateForecast = rng.NextDouble();
+            if (coinFlip > ProbablilityOfAccurateForecast)
             {
                 todaysForecast = currentDay.weather;
             }
             else
             {
-                todaysForecast = new Weather(rng);
+                todaysForecast = new Weather(rng);  
             }
+            todaysForecast.ProbablilityOfAccurateForecast = ProbablilityOfAccurateForecast;
         }
         private void printTodaysDate()
         {
@@ -114,13 +148,12 @@ namespace LemonadeStand
         }
         private void startOfDay(Player player)
         {
-            currentDay = weeks[weekIndex].DaysOfTheWeek[dayIndex];
             bool isDoneSettingUp = false;
             string input;
-            getTodaysForecast();
             do
             {
                 Console.Clear();
+                Console.WriteLine(player.Name);
                 printTodaysDate();
                 printTodaysForecast();
                 Console.WriteLine("1.Purchase Ingredients.");
@@ -158,11 +191,12 @@ namespace LemonadeStand
         private void displayTodaysInfo(Player player)
         {
             Console.Clear();
+            Console.WriteLine(player.Name);
             Console.Write("Today's actual weather:");
             printAccurateForecast();
             Console.WriteLine($"Number of cups sold today: {player.CupsSoldToday}");
-            Console.WriteLine($"Today's profit: {player.DailyProfit}");
-            Console.WriteLine($"Total profit so far: {player.TotalProfit}");
+            Console.WriteLine($"Today's profit: {player.wallet.DailyProfit}");
+            Console.WriteLine($"Total profit so far: {player.wallet.TotalProfit}");
             player.PrintResources();
             Console.ReadLine();
         }
@@ -200,12 +234,22 @@ namespace LemonadeStand
         {
             while (weekIndex < NumberOfWeeks)
             {
-                startOfDay(player);
-                openForBusiness(player);
-                updatePlayerStats(player);
-                displayTodaysInfo(player);
+                getTodaysForecast();
+                foreach (Player player in players)
+                {
+                    startOfDay(player);
+                }
+                foreach (Player player in players)
+                {
+                    openForBusiness(player);
+                    updatePlayerStats(player);
+                }
+                foreach (Player player in players)
+                {
+                    displayTodaysInfo(player);
+                    endOfDayCleanUp(player);
+                }
                 changeToNextDay();
-                endOfDayCleanUp(player);
             }
 
         }
@@ -213,7 +257,7 @@ namespace LemonadeStand
         {
             Console.Clear();
             Console.WriteLine($"{player.Name}'s Final Statistics:");
-            Console.WriteLine($"Total Profit: {player.TotalProfit}");
+            Console.WriteLine($"Total Profit: {player.wallet.TotalProfit}");
             Console.WriteLine($"Total Cups Sold: {player.TotalCupsSold}");
         }
     }

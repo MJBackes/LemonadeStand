@@ -22,19 +22,12 @@ namespace LemonadeStand
             CreateCustomers();
         }
         //MembMeths
-        private double getBaseInterest()
-        {
-            double output = rng.Next(25, 50);
-            output /= 100;
-            return output;
-        }
         private void CreateCustomers()
         {
             int NumberOfCustomers = rng.Next(50, 110);
             for(int i = 0; i < NumberOfCustomers; i++)
             {
-                double baseInterest = getBaseInterest();
-                Customers.Add(new Customer(i + 1, baseInterest,weather.Temperature,weather.Conditions,rng.NextDouble(),rng));
+                Customers.Add(new Customer(i + 1,weather.Temperature,weather.Conditions,rng));
             }
         }
         

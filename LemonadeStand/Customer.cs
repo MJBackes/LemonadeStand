@@ -9,28 +9,35 @@ namespace LemonadeStand
     class Customer
     {
         //MembVars
-        public double Interest;
-        public int CustomerNumber;
+        private double Interest;
+        private int CustomerNumber;
         private double preferedNumberOfIceCubes;
         private double variance;
         private Random rng;
         //Contr
-        public Customer(int CustNum,double baseInterest,double temp,string conditions,double varry,Random rng)
+        public Customer(int CustNum,double temp,string conditions,Random rng)
         {
-            Interest = getInterest(baseInterest, temp, conditions);
+            this.rng = rng;
+            Interest = getInterest(temp, conditions);
             preferedNumberOfIceCubes = getNumberOfCubes(temp);
             CustomerNumber = CustNum;
-            variance = varry;
-            this.rng = rng;
+            variance = rng.NextDouble() ;
         }
         //MembMeth
+        private double getBaseInterest()
+        {
+            double output = rng.Next(25, 50);
+            output /= 100;
+            return output;
+        }
         private double getNumberOfCubes(double temp)
         {
             double cubes = (temp - 50) / 5;
             return cubes;
         }
-        private double getInterest(double baseInterest,double temp,string conditions)
+        private double getInterest(double temp,string conditions)
         {
+            double baseInterest = getBaseInterest();
             double rainyMultiplier = .5;
             double cloudyMultiplier = .8;
             double hazeyMultiplier = 1.5;

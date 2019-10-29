@@ -20,7 +20,7 @@ namespace LemonadeStand
             Interest = getInterest(baseInterest, temp, conditions);
             preferedNumberOfIceCubes = getNumberOfCubes(temp);
             CustomerNumber = CustNum;
-            variance = varry / 100;
+            variance = varry;
             this.rng = rng;
         }
         //MembMeth

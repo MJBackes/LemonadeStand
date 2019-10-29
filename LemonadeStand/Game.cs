@@ -84,8 +84,26 @@ namespace LemonadeStand
         }
         private void printTodaysForecast()
         {
+            double coinFlip = rng.NextDouble();
+            if(coinFlip > .25)
+            {
+                printAccurateForecast();
+            }
+            else
+            {
+                printInaccurateForecast();
+            }
+        }
+        private void printAccurateForecast()
+        {
             Console.WriteLine($"Temperature: {currentDay.weather.Temperature}");
             Console.WriteLine($"Conditions: {currentDay.weather.Conditions}");
+        }
+        private void printInaccurateForecast()
+        {
+            Weather forecast = new Weather(rng);
+            Console.WriteLine($"Temperature: {forecast.Temperature}");
+            Console.WriteLine($"Conditions: {forecast.Conditions}");
         }
         private void printTodaysDate()
         {
@@ -136,6 +154,8 @@ namespace LemonadeStand
         private void displayTodaysInfo()
         {
             Console.Clear();
+            Console.Write("Today's actual weather:");
+            printAccurateForecast();
             Console.WriteLine($"Number of cups sold today: {player.CupsSoldToday}");
             Console.WriteLine($"Today's profit: {player.DailyProfit}");
             Console.WriteLine($"Total profit so far: {player.TotalProfit}");

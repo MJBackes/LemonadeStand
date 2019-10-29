@@ -34,7 +34,7 @@ namespace LemonadeStand
             for(int i = 0; i < NumberOfCustomers; i++)
             {
                 double baseInterest = getBaseInterest();
-                Customers.Add(new Customer(i + 1, baseInterest,weather.Temperature,weather.Conditions,rng.Next(1,100),rng));
+                Customers.Add(new Customer(i + 1, baseInterest,weather.Temperature,weather.Conditions,rng.NextDouble(),rng));
             }
         }
         

@@ -35,7 +35,7 @@ namespace LemonadeStand
         }
         public void SpoilLemons(Random rng)
         {
-            double coinFlip = rng.Next(0, 1);
+            double coinFlip = rng.NextDouble();
             if(coinFlip > .5)
             {
                 int lemonsSpoiled = rng.Next(1, 9);

@@ -109,6 +109,27 @@ namespace LemonadeStand
             }
 
         }
+        public void SellItem(Player player,string itemName,int purchaseSize)
+        {
+            switch (itemName)
+            {
+                case "lemon":
+                    SellLemons(player, purchaseSize);
+                    break;
+                case "ice cube":
+                    SellIce(player, purchaseSize);
+                    break;
+                case "sugar,cup":
+                    SellSugar(player, purchaseSize);
+                    break;
+                case "cup":
+                    SellCups(player, purchaseSize);
+                    break;
+                default:
+                    break;
+            }
+
+        }
         private void PrintIfPurchaseTooLarge()
         {
             Console.Clear();

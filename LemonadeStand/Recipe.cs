@@ -56,6 +56,10 @@ namespace LemonadeStand
                 isValidInput = int.TryParse(Console.ReadLine(), out numLemons);
             } while (!isValidInput || numLemons < 1);
         }
+        public void ChangeLemons(int lemons)
+        {
+            numLemons = lemons;
+        }
         public void ChangeIce()
         {
             bool isValidInput;
@@ -66,6 +70,10 @@ namespace LemonadeStand
             {
                 isValidInput = int.TryParse(Console.ReadLine(), out numIceCubes);
             } while (!isValidInput || numIceCubes < 0);
+        }
+        public void ChangeIce(int cubes)
+        {
+            numIceCubes = cubes;
         }
         public void ChangeSugar()
         {
@@ -78,6 +86,10 @@ namespace LemonadeStand
                 isValidInput = int.TryParse(Console.ReadLine(), out cupsSugar);
             } while (!isValidInput || cupsSugar < 0);
         }
+        public void ChangeSugar(int sugar)
+        {
+            cupsSugar = sugar;
+        }
         public void ChangePrice()
         {
             bool isValidInput;
@@ -89,6 +101,10 @@ namespace LemonadeStand
                 isValidInput = double.TryParse(Console.ReadLine(), out pricePerCup);
             } while (!isValidInput || pricePerCup < .01);
             pricePerCup = Math.Round(pricePerCup * 100) / 100;
+        }
+        public void ChangePrice(double price)
+        {
+            pricePerCup = price;
         }
     }
 }

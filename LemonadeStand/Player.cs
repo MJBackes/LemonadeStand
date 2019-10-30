@@ -18,6 +18,11 @@ namespace LemonadeStand
         public bool isSoldOut;
         public int TotalCupsSold;
         public int CupsSoldToday;
+        private bool isBankrupt;
+        public bool IsBankrupt
+        {
+            get => isBankrupt;
+        }
         //Contr
 
         //MembMeth
@@ -47,6 +52,10 @@ namespace LemonadeStand
             inventory.SugarStock -= recipe.CupsSugar;
             pitcher.Refill();
 
+        }
+        public void GoBankrupt()
+        {
+            isBankrupt = true;
         }
         public void ChangeRecipe()
         {

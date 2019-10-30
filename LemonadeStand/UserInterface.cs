@@ -13,6 +13,7 @@ namespace LemonadeStand
         //Const
 
         //MembMeth
+        /// ///Private Methods
         private static void PrintTodaysForecast(Weather todaysForecast)
         {
             WriteFullLine("Today's Forecast:");
@@ -65,7 +66,14 @@ namespace LemonadeStand
                 WriteFullLine(" ");
             }
         }
-        //////////////
+        private static void PrintRecipeContents(Recipe recipe)
+        {
+            WriteFullLine($"Lemons per Pitcher: {recipe.NumLemons}");
+            WriteFullLine($"Cups of Sugar per Pitcher: {recipe.CupsSugar}");
+            WriteFullLine($"Number of Ice Cubes per Cup: {recipe.NumIceCubes}");
+            WriteFullLine($"Price per Cup: {recipe.PricePerCup}");
+        }
+        //////////////Background Methods
         public static void PrintBackgroundFirstHalf()
         {
             Console.Clear();
@@ -91,7 +99,7 @@ namespace LemonadeStand
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
         }
-        /// /////////
+        /// /////////Public Methods
         public static void PrintGetNameText()
         {
             PrintBackgroundFirstHalf();
@@ -114,9 +122,10 @@ namespace LemonadeStand
             PrintTodaysForecast(todaysForecast);
             WriteFullLine("1.Purchase Ingredients.");
             WriteFullLine("2.Change Recipe.");
-            WriteFullLine("3.Finish today's setup.");
+            WriteFullLine("3.Go Bankrupt.");
+            WriteFullLine("4.Finish today's setup.");
             WriteFullLine("Enter 1 to go to the store, 2 to change your recipe, or 3 to finish setting up for the day.");
-            FillGrassBlock(8);
+            FillGrassBlock(9);
             PrintBackgroundSecondHalf();
         }
         public static void PrintDisplayTodaysInfoText(Player player,Weather weather)
@@ -233,47 +242,44 @@ namespace LemonadeStand
         public static void PrintRecipe(Recipe recipe)
         {
             PrintBackgroundFirstHalf();
-            WriteFullLine($"Lemons per Pitcher: {recipe.NumLemons}");
-            WriteFullLine($"Cups of Sugar per Pitcher: {recipe.CupsSugar}");
-            WriteFullLine($"Number of Ice Cubes per Cup: {recipe.NumIceCubes}");
-            WriteFullLine($"Price per Cup: {recipe.PricePerCup}");
+            PrintRecipeContents(recipe);
             FillGrassBlock(4);
             PrintBackgroundSecondHalf();
         }
-        public static void PrintChangePriceText(double pricePerCup)
+        public static void PrintChangePriceText(double pricePerCup,Recipe recipe)
         {
             PrintBackgroundFirstHalf();
-            //Console.Clear();
+            PrintRecipeContents(recipe);
             WriteFullLine($"Current Price of a Cup of Lemonade: {pricePerCup}");
             WriteFullLine("Enter the new Price per Cup:");
-            FillGrassBlock(4);
+            FillGrassBlock(6);
             PrintBackgroundSecondHalf();
         }
-        public static void PrintChangeSugarText(int cupsSugar)
+        public static void PrintChangeSugarText(int cupsSugar,Recipe recipe)
         {
             PrintBackgroundFirstHalf();
-            //Console.Clear();
+            PrintRecipeContents(recipe);
             WriteFullLine($"Current Cups of Sugar per Pitcher: {cupsSugar}");
             WriteFullLine("Enter the new amount of Cups of Sugar per Pitcher:");
-            FillGrassBlock(2);
+            FillGrassBlock(6);
             PrintBackgroundSecondHalf();
         }
-        public static void PrintChangeIceText(int numIceCubes)
+        public static void PrintChangeIceText(int numIceCubes,Recipe recipe)
         {
             PrintBackgroundFirstHalf();
-            //Console.Clear();
+            PrintRecipeContents(recipe);
             WriteFullLine($"Current Ice Cubes per Cup: {numIceCubes}");
             WriteFullLine("Enter the new amount of Ice Cubes per Cup:");
-            FillGrassBlock(2);
+            FillGrassBlock(6);
             PrintBackgroundSecondHalf();
         }
-        public static void PrintChangeLemonsText(int numLemons)
+        public static void PrintChangeLemonsText(int numLemons,Recipe recipe)
         {
             PrintBackgroundFirstHalf();
-            //Console.Clear();
+            PrintRecipeContents(recipe);
             WriteFullLine($"Current Lemons per Pitcher: {numLemons}");
             WriteFullLine("Enter the new amount of Lemons per Pitcher:");
-            FillGrassBlock(2);
+            FillGrassBlock(6);
             PrintBackgroundSecondHalf();
         }
     }

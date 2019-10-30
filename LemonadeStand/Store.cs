@@ -16,6 +16,22 @@ namespace LemonadeStand
         private bool isDoneShopping;
         private double largeDiscount;
         private double smallDiscount;
+        public double LemonPrice
+        {
+            get => lemonPrice;
+        }
+        public double SugarPrice
+        {
+            get => sugarPrice;
+        }
+        public double CupPrice
+        {
+            get => cupPrice;
+        }
+        public double IcePrice
+        {
+            get => icePrice;
+        }
         //Contr
         public Store()
         {
@@ -97,37 +113,35 @@ namespace LemonadeStand
             }
 
         }
-        public void SellItem(Player player,string itemName,int purchaseSize)
+        public bool SellItem(Player player,string itemName,int purchaseSize)
         {
             switch (itemName)
             {
                 case "lemon":
-                    SellLemons(player, purchaseSize);
-                    break;
+                    return SellLemons(player, purchaseSize);
                 case "ice cube":
-                    SellIce(player, purchaseSize);
-                    break;
+                    return SellIce(player, purchaseSize);
                 case "sugar,cup":
-                    SellSugar(player, purchaseSize);
-                    break;
+                    return SellSugar(player, purchaseSize);
                 case "cup":
-                    SellCups(player, purchaseSize);
-                    break;
+                    return SellCups(player, purchaseSize);
                 default:
-                    break;
+                    return false;
             }
 
         }
-        private void SellLemons(Player player, int purchaseSize)
+        private bool SellLemons(Player player, int purchaseSize)
         {
             double saleTotal = GetSaleTotal_Lemons(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
                 UpdatePlayerTraits_Lemons(player, purchaseSize);
+                return true;
             }
             else
             {
                 UserInterface.PrintIfPurchaseTooLarge(player);
+                return false;
             }
         }
         private void UpdatePlayerTraits_Lemons(Player player,int purchaseSize)
@@ -150,16 +164,18 @@ namespace LemonadeStand
                 return purchaseSize * lemonPrice;
             }
         }
-        private void SellSugar(Player player, int purchaseSize)
+        private bool SellSugar(Player player, int purchaseSize)
         {
             double saleTotal = GetSaleTotal_Sugar(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
                 UpdatePlayerTraits_Sugar(player,purchaseSize);
+                return true;
             }
             else
             {
                 UserInterface.PrintIfPurchaseTooLarge(player);
+                return false;
             }
         }
         private void UpdatePlayerTraits_Sugar(Player player, int purchaseSize)
@@ -182,16 +198,18 @@ namespace LemonadeStand
                 return purchaseSize * sugarPrice;
             }
         }
-        private void SellIce(Player player, int purchaseSize)
+        private bool SellIce(Player player, int purchaseSize)
         {
             double saleTotal = GetSaleTotal_Ice(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
                 UpdatePlayerTraits_Ice(player, purchaseSize);
+                return true;
             }
             else
             {
                 UserInterface.PrintIfPurchaseTooLarge(player);
+                return false;
             }
         }
         private void UpdatePlayerTraits_Ice(Player player, int purchaseSize)
@@ -214,16 +232,18 @@ namespace LemonadeStand
                 return purchaseSize * icePrice;
             }
         }
-        private void SellCups(Player player, int purchaseSize)
+        private bool SellCups(Player player, int purchaseSize)
         {
             double saleTotal = GetSaleTotal_Cups(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
                 UpdatePlayerTraits_Cups(player, purchaseSize);
+                return true;
             }
             else
             {
                 UserInterface.PrintIfPurchaseTooLarge(player);
+                return false;
             }
         }
         private void UpdatePlayerTraits_Cups(Player player, int purchaseSize)

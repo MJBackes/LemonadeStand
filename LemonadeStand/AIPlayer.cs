@@ -48,7 +48,7 @@ namespace LemonadeStand
         }
         private int GetNumberOfLemons()
         {
-            return rng.Next(7, 10);
+            return rng.Next(7, 9);
         }
         private int GetNumberOfSugarCups()
         {
@@ -61,16 +61,7 @@ namespace LemonadeStand
         }
         private double GetPrice(Weather todaysForecast)
         {
-            int max;
-            if (todaysForecast.Temperature > 65)
-            {
-                max = Convert.ToInt32(todaysForecast.Temperature - 50);
-            }
-            else
-            {
-                max = 20;
-            }
-            double price = rng.Next(15, max);
+            double price = todaysForecast.Temperature - 50;
             price /= 100;
             return price;
         }
@@ -105,22 +96,34 @@ namespace LemonadeStand
         private void PurchaseIce(Store store)
         {
             int purchaseSize = StandingNumberOfIceCubes;
-            store.SellItem(this, "ice cube", purchaseSize);
+            if (!store.SellItem(this, "ice cube", purchaseSize))
+            {
+                GoBankrupt();
+            }
         }
         private void PurchaseLemons(Store store)
         {
             int purchaseSize = (StandingNumberOfLemons) - inventory.LemonStock;
-            store.SellItem(this, "lemon", purchaseSize);
+            if(!store.SellItem(this, "lemon", purchaseSize))
+            {
+                GoBankrupt();
+            }
         }
         private void PurchaseSugar(Store store)
         {
             int purchaseSize = (StandingNumberOfSugarCups) - inventory.SugarStock;
-            store.SellItem(this, "sugar,cup", purchaseSize);
+            if(!store.SellItem(this, "sugar,cup", purchaseSize))
+            {
+                GoBankrupt();
+            }
         }
         private void PurchaseCups(Store store)
         {
             int purchaseSize = (StandingNumberOfCups) - inventory.CupStock;
-            store.SellItem(this, "cup", purchaseSize);
+            if(!store.SellItem(this, "cup", purchaseSize))
+            {
+                GoBankrupt();
+            }
         }
     }
 }

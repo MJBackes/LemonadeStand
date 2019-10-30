@@ -39,6 +39,9 @@ namespace LemonadeStand
                     ChangeRecipe();
                     break;
                 case "3":
+                    GoBankrupt();
+                    return true;
+                case "4":
                     return true;
                 default:
                     break;

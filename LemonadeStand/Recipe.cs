@@ -41,7 +41,7 @@ namespace LemonadeStand
         public void ChangeLemons()
         {
             bool isValidInput;
-            UserInterface.PrintChangeLemonsText(numLemons);
+            UserInterface.PrintChangeLemonsText(numLemons,this);
             do
             {
                 isValidInput = int.TryParse(Console.ReadLine(), out numLemons);
@@ -54,7 +54,7 @@ namespace LemonadeStand
         public void ChangeIce()
         {
             bool isValidInput;
-            UserInterface.PrintChangeIceText(numIceCubes);
+            UserInterface.PrintChangeIceText(numIceCubes,this);
             do
             {
                 isValidInput = int.TryParse(Console.ReadLine(), out numIceCubes);
@@ -67,7 +67,7 @@ namespace LemonadeStand
         public void ChangeSugar()
         {
             bool isValidInput;
-            UserInterface.PrintChangeSugarText(cupsSugar);
+            UserInterface.PrintChangeSugarText(cupsSugar,this);
             do
             {
                 isValidInput = int.TryParse(Console.ReadLine(), out cupsSugar);
@@ -80,7 +80,7 @@ namespace LemonadeStand
         public void ChangePrice()
         {
             bool isValidInput;
-            UserInterface.PrintChangePriceText(pricePerCup);
+            UserInterface.PrintChangePriceText(pricePerCup,this);
             do
             {
                 isValidInput = double.TryParse(Console.ReadLine(), out pricePerCup);

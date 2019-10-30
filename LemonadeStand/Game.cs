@@ -176,17 +176,26 @@ namespace LemonadeStand
                 GetTodaysForecast();
                 foreach (Player player in players)
                 {
-                    StartOfDay(player);
+                    if (!player.IsBankrupt)
+                    {
+                        StartOfDay(player);
+                    }
                 }
                 foreach (Player player in players)
                 {
-                    OpenForBusiness(player);
-                    UpdatePlayerStats(player);
+                    if (!player.IsBankrupt)
+                    {
+                        OpenForBusiness(player);
+                        UpdatePlayerStats(player);
+                    }
                 }
                 foreach (Player player in players)
                 {
-                    DisplayTodaysInfo(player);
-                    EndOfDayCleanUp(player);
+                    if (!player.IsBankrupt)
+                    {
+                        DisplayTodaysInfo(player);
+                        EndOfDayCleanUp(player);
+                    }
                 }
                 ChangeToNextDay();
             }

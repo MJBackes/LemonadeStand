@@ -38,19 +38,10 @@ namespace LemonadeStand
             pricePerCup = .25;
         }
         //MembMeth
-        public void PrintRecipe()
-        {
-            Console.WriteLine($"Lemons per Pitcher: {numLemons}");
-            Console.WriteLine($"Cups of Sugar per Pitcher: {cupsSugar}");
-            Console.WriteLine($"Number of Ice Cubes per Cup: {numIceCubes}");
-            Console.WriteLine($"Price per Cup: {pricePerCup}");
-        }
         public void ChangeLemons()
         {
             bool isValidInput;
-            Console.Clear();
-            Console.WriteLine($"Current Lemons per Pitcher: {numLemons}");
-            Console.WriteLine("Enter the new amount of Lemons per Pitcher:");
+            UserInterface.PrintChangeLemonsText(numLemons);
             do
             {
                 isValidInput = int.TryParse(Console.ReadLine(), out numLemons);
@@ -63,9 +54,7 @@ namespace LemonadeStand
         public void ChangeIce()
         {
             bool isValidInput;
-            Console.Clear();
-            Console.WriteLine($"Current Ice Cubes per Cup: {numIceCubes}");
-            Console.WriteLine("Enter the new amount of Ice Cubes per Cup:");
+            UserInterface.PrintChangeIceText(numIceCubes);
             do
             {
                 isValidInput = int.TryParse(Console.ReadLine(), out numIceCubes);
@@ -78,9 +67,7 @@ namespace LemonadeStand
         public void ChangeSugar()
         {
             bool isValidInput;
-            Console.Clear();
-            Console.WriteLine($"Current Cups of Sugar per Pitcher: {cupsSugar}");
-            Console.WriteLine("Enter the new amount of Cups of Sugar per Pitcher:");
+            UserInterface.PrintChangeSugarText(cupsSugar);
             do
             {
                 isValidInput = int.TryParse(Console.ReadLine(), out cupsSugar);
@@ -93,9 +80,7 @@ namespace LemonadeStand
         public void ChangePrice()
         {
             bool isValidInput;
-            Console.Clear();
-            Console.WriteLine($"Current Price of a Cup of Lemonade: {pricePerCup}");
-            Console.WriteLine("Enter the new Price per Cup:");
+            UserInterface.PrintChangePriceText(pricePerCup);
             do
             {
                 isValidInput = double.TryParse(Console.ReadLine(), out pricePerCup);

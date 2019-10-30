@@ -27,7 +27,7 @@ namespace LemonadeStand
             int NumberOfCustomers = rng.Next(50, 110);
             for(int i = 0; i < NumberOfCustomers; i++)
             {
-                Customers.Add(new Customer(i + 1,weather.Temperature,weather.Conditions,rng));
+                Customers.Add(new Customer(weather.Temperature,weather.Conditions,rng));
             }
         }
         

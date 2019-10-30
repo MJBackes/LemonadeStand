@@ -32,13 +32,6 @@ namespace LemonadeStand
             CupStock = 0;
         }
         //MembMeth
-        public void PrintInventory()
-        {
-            Console.WriteLine($"Lemons: {LemonStock}");
-            Console.WriteLine($"Cups of Sugar: {SugarStock}");
-            Console.WriteLine($"Ice Cubes: {IceStock}");
-            Console.WriteLine($"Cups: {CupStock}");
-        }
         public void MeltIceAtEndOfDay()
         {
             iceCubesMeltedToday = IceStock;
@@ -49,7 +42,7 @@ namespace LemonadeStand
             double coinFlip = rng.NextDouble();
             if(coinFlip > .75)
             {
-                int lemonsSpoiled = rng.Next(1, LemonStock);
+                int lemonsSpoiled = rng.Next(LemonStock);
                 lemonsSpoiledToday = lemonsSpoiled;
                 LemonStock -= lemonsSpoiled;
             }

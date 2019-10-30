@@ -21,7 +21,7 @@ namespace LemonadeStand
         //Contr
 
         //MembMeth
-        public abstract bool SetUpForTheDay(Store store);
+        public abstract bool SetUpForTheDay(Store store,Weather todaysForecast);
         public void UpdateTotalCupsSold()
         {
             TotalCupsSold += CupsSoldToday;
@@ -29,15 +29,6 @@ namespace LemonadeStand
         public void ResetCupsSoldToday()
         {
             CupsSoldToday = 0;
-        }
-        public void PrintResources()
-        {
-            inventory.PrintInventory();
-            wallet.PrintWallet();
-        }
-        public void PrintRecipe()
-        {
-            recipe.PrintRecipe();
         }
         public void RefillPitcher()
         {
@@ -64,8 +55,8 @@ namespace LemonadeStand
             do
             {
                 Console.Clear();
-                recipe.PrintRecipe();
-                input = getRecipeChangeInput();
+                UserInterface.PrintRecipe(recipe);
+                input = GetRecipeChangeInput();
                 switch (input)
                 {
                     case "lemon":
@@ -87,15 +78,10 @@ namespace LemonadeStand
                 }
             } while (!isDoneChangingRecipe);
         }
-        private string getRecipeChangeInput()
+        private string GetRecipeChangeInput()
         {
             string input;
-            Console.WriteLine("1.Change Lemons per Pitcher.");
-            Console.WriteLine("2.Change Cups of Sugar per Pitcher.");
-            Console.WriteLine("3.Change Cubes of Ice per Cup.");
-            Console.WriteLine("4.Change Price per Cup.");
-            Console.WriteLine("5.Return.");
-            Console.WriteLine("Enter the number coresponding to the component you would like to change or 5 to return to the previous screen.");
+            UserInterface.PrintGetChangeRecipeInputText();
             do
             {
                 input = Console.ReadLine();
@@ -120,12 +106,12 @@ namespace LemonadeStand
             {
                 RefillPitcher();
             }
-            if (!checkIfSoldOut())
+            if (!CheckIfSoldOut())
             {
                 SellCup();
             }
         }
-        private bool checkIfSoldOut()
+        private bool CheckIfSoldOut()
         {
             if(recipe.NumIceCubes > inventory.IceStock || inventory.CupStock < 1 || isSoldOut)
             {

@@ -22,16 +22,13 @@ namespace LemonadeStand
         //MembMeth
         private string SetName()
         {
-            Console.WriteLine("Enter your name:");
+            UserInterface.PrintGetNameText();
             return Console.ReadLine();
         }
-        public override bool SetUpForTheDay(Store store)
+        public override bool SetUpForTheDay(Store store,Weather todaysForecast)
         {
             string input;
-            Console.WriteLine("1.Purchase Ingredients.");
-            Console.WriteLine("2.Change Recipe.");
-            Console.WriteLine("3.Finish today's setup.");
-            Console.WriteLine("Enter 1 to go to the store, 2 to change your recipe, or 3 to finish setting up for the day.");
+            UserInterface.PrintSetUpForTheDayText();
             input = Console.ReadLine();
             switch (input)
             {

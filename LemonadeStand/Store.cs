@@ -8,7 +8,6 @@ namespace LemonadeStand
 {
     class Store
     {
-
         //MembVars
         private double lemonPrice;
         private double sugarPrice;
@@ -41,11 +40,7 @@ namespace LemonadeStand
         {
             int purchaseSize;
             bool isValidInput;
-            Console.WriteLine($"Price per {itemName}: {itemPrice}");
-            Console.WriteLine($"10% Discount on purchases of {smallDiscountThreshold} or more.");
-            Console.WriteLine($"15% Discount on purchases of {largeDiscountThreshold} or more.");
-            Console.WriteLine("Your Wallet: " + player.wallet.Money);
-            Console.WriteLine($"How many {itemName}(s) would you like to buy?");
+            UserInterface.PrintGetPurchaseSizeText(player, itemName, itemPrice, smallDiscountThreshold, largeDiscountThreshold);
             do
             {
                 isValidInput = int.TryParse(Console.ReadLine(), out purchaseSize);
@@ -55,14 +50,7 @@ namespace LemonadeStand
         private string GetItemToSell(Player player)
         {
             string input;
-            Console.Clear();
-            player.PrintResources();
-            Console.WriteLine("1.Buy Lemons.");
-            Console.WriteLine("2.Buy Ice Cubes.");
-            Console.WriteLine("3.Buy Cups of Sugar.");
-            Console.WriteLine("4.Buy Cups");
-            Console.WriteLine("5.Return.");
-            Console.WriteLine("Enter the number coresponding to the purchase you would like to make or 5 to return to the previous screen.");
+            UserInterface.PrintGetItemToSellText(player);
             do
             {
                 input = Console.ReadLine();
@@ -130,30 +118,24 @@ namespace LemonadeStand
             }
 
         }
-        private void PrintIfPurchaseTooLarge()
-        {
-            Console.Clear();
-            Console.WriteLine("Not enough money to purchase that many.");
-            Console.ReadLine();
-        }
         private void SellLemons(Player player, int purchaseSize)
         {
-            double saleTotal = getSaleTotal_Lemons(purchaseSize);
+            double saleTotal = GetSaleTotal_Lemons(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
                 UpdatePlayerTraits_Lemons(player, purchaseSize);
             }
             else
             {
-                PrintIfPurchaseTooLarge();
+                UserInterface.PrintIfPurchaseTooLarge(player);
             }
         }
         private void UpdatePlayerTraits_Lemons(Player player,int purchaseSize)
         {
             player.inventory.LemonStock += purchaseSize;
-            player.wallet.Money -= (lemonPrice * purchaseSize);
+            player.wallet.Money -= (GetSaleTotal_Lemons(purchaseSize));
         }
-        private double getSaleTotal_Lemons(int purchaseSize)
+        private double GetSaleTotal_Lemons(int purchaseSize)
         {
             if(purchaseSize > 50)
             {
@@ -170,22 +152,22 @@ namespace LemonadeStand
         }
         private void SellSugar(Player player, int purchaseSize)
         {
-            double saleTotal = getSaleTotal_Sugar(purchaseSize);
+            double saleTotal = GetSaleTotal_Sugar(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
                 UpdatePlayerTraits_Sugar(player,purchaseSize);
             }
             else
             {
-                PrintIfPurchaseTooLarge();
+                UserInterface.PrintIfPurchaseTooLarge(player);
             }
         }
         private void UpdatePlayerTraits_Sugar(Player player, int purchaseSize)
         {
             player.inventory.SugarStock += purchaseSize;
-            player.wallet.Money -= (sugarPrice * purchaseSize);
+            player.wallet.Money -= (GetSaleTotal_Sugar(purchaseSize));
         }
-        private double getSaleTotal_Sugar(int purchaseSize)
+        private double GetSaleTotal_Sugar(int purchaseSize)
         {
             if (purchaseSize > 40)
             {
@@ -202,22 +184,22 @@ namespace LemonadeStand
         }
         private void SellIce(Player player, int purchaseSize)
         {
-            double saleTotal = getSaleTotal_Ice(purchaseSize);
+            double saleTotal = GetSaleTotal_Ice(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
                 UpdatePlayerTraits_Ice(player, purchaseSize);
             }
             else
             {
-                PrintIfPurchaseTooLarge();
+                UserInterface.PrintIfPurchaseTooLarge(player);
             }
         }
         private void UpdatePlayerTraits_Ice(Player player, int purchaseSize)
         {
             player.inventory.IceStock += purchaseSize;
-            player.wallet.Money -= (icePrice * purchaseSize);
+            player.wallet.Money -= (GetSaleTotal_Ice(purchaseSize));
         }
-        private double getSaleTotal_Ice(int purchaseSize)
+        private double GetSaleTotal_Ice(int purchaseSize)
         {
             if (purchaseSize > 250)
             {
@@ -234,22 +216,22 @@ namespace LemonadeStand
         }
         private void SellCups(Player player, int purchaseSize)
         {
-            double saleTotal = getSaleTotal_Cups(purchaseSize);
+            double saleTotal = GetSaleTotal_Cups(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
                 UpdatePlayerTraits_Cups(player, purchaseSize);
             }
             else
             {
-                PrintIfPurchaseTooLarge();
+                UserInterface.PrintIfPurchaseTooLarge(player);
             }
         }
         private void UpdatePlayerTraits_Cups(Player player, int purchaseSize)
         {
             player.inventory.CupStock += purchaseSize;
-            player.wallet.Money -= (cupPrice * purchaseSize);
+            player.wallet.Money -= (GetSaleTotal_Cups(purchaseSize));
         }
-        private double getSaleTotal_Cups(int purchaseSize)
+        private double GetSaleTotal_Cups(int purchaseSize)
         {
             if (purchaseSize > 250)
             {

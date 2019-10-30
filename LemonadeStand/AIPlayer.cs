@@ -32,35 +32,45 @@ namespace LemonadeStand
             StandingNumberOfCups = 50;
             StandingNumberOfIceCubes = recipe.NumIceCubes * 50;
         }
-        public override bool SetUpForTheDay(Store store)
+        public override bool SetUpForTheDay(Store store,Weather todaysForecast)
         {
-            SetRecipe();
+            SetRecipe(todaysForecast);
             SetStandingReserves();
             PurchaseIngredients(store);
             return true;
         }
-        private void SetRecipe()
+        private void SetRecipe(Weather todaysForecast)
         {
             recipe.ChangeLemons(GetNumberOfLemons());
             recipe.ChangeSugar(GetNumberOfSugarCups());
-            recipe.ChangeIce(GetNumberOfIceCubes());
-            recipe.ChangePrice(GetPrice());
+            recipe.ChangeIce(GetNumberOfIceCubes(todaysForecast));
+            recipe.ChangePrice(GetPrice(todaysForecast));
         }
         private int GetNumberOfLemons()
         {
-            return rng.Next(4, 7);
+            return rng.Next(7, 10);
         }
         private int GetNumberOfSugarCups()
         {
-            return rng.Next(5, 8);
+            return rng.Next(8, 10);
         }
-        private int GetNumberOfIceCubes()
+        private int GetNumberOfIceCubes(Weather todaysForecast)
         {
-            return rng.Next(8);
+            int max = Convert.ToInt32(todaysForecast.Temperature - 50) / 5;
+            return rng.Next(1,max);
         }
-        private double GetPrice()
+        private double GetPrice(Weather todaysForecast)
         {
-            double price = rng.Next(9, 14);
+            int max;
+            if (todaysForecast.Temperature > 65)
+            {
+                max = Convert.ToInt32(todaysForecast.Temperature - 50);
+            }
+            else
+            {
+                max = 20;
+            }
+            double price = rng.Next(15, max);
             price /= 100;
             return price;
         }

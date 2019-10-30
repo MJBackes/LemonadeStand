@@ -30,7 +30,7 @@ namespace LemonadeStand
         //MembMeth
         public void PrintWallet()
         {
-            Console.WriteLine($"Wallet: {Money}");
+            
         }
         public void UpdateDailyProfit()
         {

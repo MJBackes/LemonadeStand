@@ -17,9 +17,7 @@ namespace LemonadeStand
         private int weekIndex;
         private Day currentDay;
         private Weather todaysForecast;
-        private Random rng; //Putting this here doesn't make the most sense from an OOP perspective, but instanciating the Randoms
-                           //in the appropriate classes led to them having the same seed and therefore the same output, so I moved
-                          // it here in order to pass around the reference to a single Random object.
+        private Random rng;
         //Contr
         public Game()
         {
@@ -30,8 +28,7 @@ namespace LemonadeStand
         //MembMeth
         private int getNumberOfWeeks()
         {
-            Console.Clear();
-            Console.WriteLine("How many weeks do you want to play(1-5)?");
+            UserInterface.PrintGetNumberOfWeeksText();
             int input;
             bool isValidInput;
             do
@@ -53,20 +50,8 @@ namespace LemonadeStand
         }
         private void displayRules()
         {
-            Console.Clear();
-            Console.WriteLine("SETUP");
-            Console.WriteLine(" -Enter your name and choose the number of weeks you would like to play(from 1 to 5).");
-            Console.WriteLine("MAIN GAME");
-            Console.WriteLine(" -Each day, you will be able to purchase ingredients and change your lemonade recipe and its cost.");
-            Console.WriteLine(" -There will be a number of people each day who walk past your stand,\n" +
-                "   their likelyhood to purchase your lemonade is based on several factors, including - but not limited to- :\n" +
-                "       Temperature\n" +
-                "       Weather conditions\n" +
-                "       How much sugar/lemon/ice is in the lemonade");
-            Console.WriteLine(" -Adjust your recipe and price in accordance with the weather in order to make more money than you\n" +
-                "spend on ingredients.");
+            UserInterface.DisplayRules();
             Console.ReadLine();
-
         }
         public void RunGame()
         {
@@ -75,7 +60,8 @@ namespace LemonadeStand
             MainGame();
             foreach (Player player in players)
             {
-                EndOfGameText(player);
+                UserInterface.PrintPlayersEndOfGameText(player);
+                Console.ReadLine();
             }
         }
         private void SetUp()
@@ -87,37 +73,28 @@ namespace LemonadeStand
         {
             bool areAllPlayerssetUp = false;
             string input;
+            int playerNumber = 1;
             do
             {
-                Console.Clear();
-                Console.WriteLine("1.Add another player.");
-                Console.WriteLine("2.Finish adding players.");
+                UserInterface.PrintInstanciatePlayerText();
                 input = Console.ReadLine();
                 switch (input)
                 {
                     case "1":
                         players.Add(new HumanPlayer());
+                        playerNumber++;
                         break;
                     case "2":
+                        players.Add(new AIPlayer(playerNumber, rng));
+                        playerNumber++;
+                        break;
+                    case "3":
                         areAllPlayerssetUp = true;
                         break;
                     default:
                         break;
                 }
             }while(!areAllPlayerssetUp);
-        }
-        private void PrintTodaysForecast()
-        {
-            Console.WriteLine("Today's Forecast:");
-            Console.WriteLine($"    Temperature: {todaysForecast.Temperature}");
-            Console.WriteLine($"    Conditions: {todaysForecast.Conditions}");
-            Console.WriteLine($"    Confidence: {todaysForecast.ProbablilityOfAccurateForecast}%");
-
-        }
-        private void PrintAccurateForecast()
-        {
-            Console.WriteLine($"Temperature: {currentDay.weather.Temperature}");
-            Console.WriteLine($"Conditions: {currentDay.weather.Conditions}");
         }
         private void GetTodaysForecast()
         {
@@ -146,8 +123,8 @@ namespace LemonadeStand
                 Console.Clear();
                 Console.WriteLine(player.Name);
                 PrintTodaysDate();
-                PrintTodaysForecast();
-                isDoneSettingUp = player.SetUpForTheDay(store);
+                UserInterface.PrintTodaysForecast(todaysForecast);
+                isDoneSettingUp = player.SetUpForTheDay(store,todaysForecast);
             } while (!isDoneSettingUp);
         }
         private void OpenForBusiness(Player player)
@@ -165,12 +142,9 @@ namespace LemonadeStand
         {
             Console.Clear();
             Console.WriteLine(player.Name);
-            Console.Write("Today's actual weather:");
-            PrintAccurateForecast();
-            Console.WriteLine($"Number of cups sold today: {player.CupsSoldToday}");
-            Console.WriteLine($"Today's profit: {player.wallet.DailyProfit}");
-            Console.WriteLine($"Total profit so far: {player.wallet.TotalProfit}");
-            player.PrintResources();
+            UserInterface.PrintAccurateForecast(currentDay.weather);
+            UserInterface.PrintPlayersEndOfDayInfo(player);
+            UserInterface.PrintPlayerResources(player);
             Console.ReadLine();
         }
         private void ChangeToNextDay()
@@ -199,8 +173,7 @@ namespace LemonadeStand
         }
         private void PrintResourcesLostAtEndOfDay(Player player)
         {
-            Console.WriteLine($"Number of Ice Cubes that melted at the end of the Day: {player.inventory.IceCubesMeltedToday}");
-            Console.WriteLine($"Number of Lemons that spoiled today: {player.inventory.LemonsSpoiledToday}");
+            UserInterface.PrintPlayersResourcesLostAtEndOfDay(player);
             Console.ReadLine();
         }
         private void MainGame()
@@ -225,13 +198,6 @@ namespace LemonadeStand
                 ChangeToNextDay();
             }
 
-        }
-        private void EndOfGameText(Player player)
-        {
-            Console.Clear();
-            Console.WriteLine($"{player.Name}'s Final Statistics:");
-            Console.WriteLine($"Total Profit: {player.wallet.TotalProfit}");
-            Console.WriteLine($"Total Cups Sold: {player.TotalCupsSold}");
         }
     }
 }

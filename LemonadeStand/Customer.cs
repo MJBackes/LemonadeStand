@@ -10,7 +10,6 @@ namespace LemonadeStand
     {
         //MembVars
         private double Interest;
-        private int CustomerNumber;
         private double preferedNumberOfIceCubes;
         private double preferedNumberOfLemons;
         private double preferedNumberOfCupsOfSugar;
@@ -18,7 +17,7 @@ namespace LemonadeStand
         private double variance;
         private Random rng;
         //Contr
-        public Customer(int CustNum,double temp,string conditions,Random rng)
+        public Customer(double temp,string conditions,Random rng)
         {
             this.rng = rng;
             Interest = getInterest(temp, conditions);
@@ -26,7 +25,6 @@ namespace LemonadeStand
             preferedNumberOfLemons = getNumberOfLemons();
             preferedNumberOfCupsOfSugar = getNumberOfSugars();
             preferedPrice = getPreferedPrice();
-            CustomerNumber = CustNum;
             variance = rng.NextDouble() ;
         }
         //MembMeth

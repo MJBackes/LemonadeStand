@@ -13,8 +13,16 @@ namespace LemonadeStand
         public int SugarStock;
         public int IceStock;
         public int CupStock;
-        public int IceCubesMeltedToday;
-        public int LemonsSpoiledToday;
+        private int iceCubesMeltedToday;
+        private int lemonsSpoiledToday;
+        public int IceCubesMeltedToday
+        {
+            get => iceCubesMeltedToday;
+        }
+        public int LemonsSpoiledToday
+        {
+            get => lemonsSpoiledToday;
+        }
         //Contr
         public Inventory()
         {
@@ -33,7 +41,7 @@ namespace LemonadeStand
         }
         public void MeltIceAtEndOfDay()
         {
-            IceCubesMeltedToday = IceStock;
+            iceCubesMeltedToday = IceStock;
             IceStock = 0;
         }
         public void SpoilLemons(Random rng)
@@ -42,14 +50,14 @@ namespace LemonadeStand
             if(coinFlip > .75)
             {
                 int lemonsSpoiled = rng.Next(1, LemonStock);
-                LemonsSpoiledToday = lemonsSpoiled;
+                lemonsSpoiledToday = lemonsSpoiled;
                 LemonStock -= lemonsSpoiled;
             }
         }
         public void ResetDailyVariables()
         {
-            LemonsSpoiledToday = 0;
-            IceCubesMeltedToday = 0;
+            lemonsSpoiledToday = 0;
+            iceCubesMeltedToday = 0;
         }
     }
 }

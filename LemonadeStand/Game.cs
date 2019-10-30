@@ -71,25 +71,25 @@ namespace LemonadeStand
         public void RunGame()
         {
             displayRules();
-            setUp();
-            mainGame();
+            SetUp();
+            MainGame();
             foreach (Player player in players)
             {
-                endOfGameText(player);
+                EndOfGameText(player);
             }
         }
-        private void setUp()
+        private void SetUp()
         {
-            Console.Clear();
-            instanciatePlayers();
+            InstanciatePlayers();
             instanciateWeeks();
         }
-        private void instanciatePlayers()
+        private void InstanciatePlayers()
         {
             bool areAllPlayerssetUp = false;
             string input;
             do
             {
+                Console.Clear();
                 Console.WriteLine("1.Add another player.");
                 Console.WriteLine("2.Finish adding players.");
                 input = Console.ReadLine();
@@ -106,15 +106,7 @@ namespace LemonadeStand
                 }
             }while(!areAllPlayerssetUp);
         }
-        private void purchaseIngredients(Player player)
-        {
-            store.SellToPlayer(player);
-        }
-        private void setRecipe(Player player)
-        {
-            player.ChangeRecipe();
-        }
-        private void printTodaysForecast()
+        private void PrintTodaysForecast()
         {
             Console.WriteLine("Today's Forecast:");
             Console.WriteLine($"    Temperature: {todaysForecast.Temperature}");
@@ -122,12 +114,12 @@ namespace LemonadeStand
             Console.WriteLine($"    Confidence: {todaysForecast.ProbablilityOfAccurateForecast}%");
 
         }
-        private void printAccurateForecast()
+        private void PrintAccurateForecast()
         {
             Console.WriteLine($"Temperature: {currentDay.weather.Temperature}");
             Console.WriteLine($"Conditions: {currentDay.weather.Conditions}");
         }
-        private void getTodaysForecast()
+        private void GetTodaysForecast()
         {
             currentDay = weeks[weekIndex].DaysOfTheWeek[dayIndex];
             double coinFlip = rng.NextDouble();
@@ -142,42 +134,23 @@ namespace LemonadeStand
             }
             todaysForecast.ProbablilityOfAccurateForecast = ProbablilityOfAccurateForecast;
         }
-        private void printTodaysDate()
+        private void PrintTodaysDate()
         {
             Console.WriteLine("Week: " + (weekIndex + 1) + " - Day: " + (dayIndex + 1));
         }
-        private void startOfDay(Player player)
+        private void StartOfDay(Player player)
         {
-            bool isDoneSettingUp = false;
-            string input;
+            bool isDoneSettingUp;
             do
             {
                 Console.Clear();
                 Console.WriteLine(player.Name);
-                printTodaysDate();
-                printTodaysForecast();
-                Console.WriteLine("1.Purchase Ingredients.");
-                Console.WriteLine("2.Change Recipe.");
-                Console.WriteLine("3.Finish today's setup.");
-                Console.WriteLine("Enter 1 to go to the store, 2 to change your recipe, or 3 to finish setting up for the day.");
-                input = Console.ReadLine();
-                switch (input)
-                {
-                    case "1":
-                        purchaseIngredients(player);
-                        break;
-                    case "2":
-                        setRecipe(player);
-                        break;
-                    case "3":
-                        isDoneSettingUp = true;
-                        break;
-                    default:
-                        break;
-                }
+                PrintTodaysDate();
+                PrintTodaysForecast();
+                isDoneSettingUp = player.SetUpForTheDay(store);
             } while (!isDoneSettingUp);
         }
-        private void openForBusiness(Player player)
+        private void OpenForBusiness(Player player)
         {
             
             foreach(Customer customer in currentDay.Customers)
@@ -188,19 +161,19 @@ namespace LemonadeStand
                 }
             }
         }
-        private void displayTodaysInfo(Player player)
+        private void DisplayTodaysInfo(Player player)
         {
             Console.Clear();
             Console.WriteLine(player.Name);
             Console.Write("Today's actual weather:");
-            printAccurateForecast();
+            PrintAccurateForecast();
             Console.WriteLine($"Number of cups sold today: {player.CupsSoldToday}");
             Console.WriteLine($"Today's profit: {player.wallet.DailyProfit}");
             Console.WriteLine($"Total profit so far: {player.wallet.TotalProfit}");
             player.PrintResources();
             Console.ReadLine();
         }
-        private void changeToNextDay()
+        private void ChangeToNextDay()
         {
             dayIndex++;
             if(dayIndex == 7)
@@ -209,51 +182,51 @@ namespace LemonadeStand
                 weekIndex++;
             }
         }
-        private void updatePlayerStats(Player player)
+        private void UpdatePlayerStats(Player player)
         {
             player.wallet.UpdateDailyProfit();
             player.wallet.UpdateTotalProfit();
             player.UpdateTotalCupsSold();
         }
-        private void endOfDayCleanUp(Player player)
+        private void EndOfDayCleanUp(Player player)
         {
             player.inventory.MeltIceAtEndOfDay();
             player.inventory.SpoilLemons(rng);
-            printResourcesLostAtEndOfDay(player);
+            PrintResourcesLostAtEndOfDay(player);
             player.inventory.ResetDailyVariables();
             player.pitcher.EmptyPitcherAtEndOfDay();
             player.ResetCupsSoldToday();
         }
-        private void printResourcesLostAtEndOfDay(Player player)
+        private void PrintResourcesLostAtEndOfDay(Player player)
         {
             Console.WriteLine($"Number of Ice Cubes that melted at the end of the Day: {player.inventory.IceCubesMeltedToday}");
             Console.WriteLine($"Number of Lemons that spoiled today: {player.inventory.LemonsSpoiledToday}");
             Console.ReadLine();
         }
-        private void mainGame()
+        private void MainGame()
         {
             while (weekIndex < NumberOfWeeks)
             {
-                getTodaysForecast();
+                GetTodaysForecast();
                 foreach (Player player in players)
                 {
-                    startOfDay(player);
+                    StartOfDay(player);
                 }
                 foreach (Player player in players)
                 {
-                    openForBusiness(player);
-                    updatePlayerStats(player);
+                    OpenForBusiness(player);
+                    UpdatePlayerStats(player);
                 }
                 foreach (Player player in players)
                 {
-                    displayTodaysInfo(player);
-                    endOfDayCleanUp(player);
+                    DisplayTodaysInfo(player);
+                    EndOfDayCleanUp(player);
                 }
-                changeToNextDay();
+                ChangeToNextDay();
             }
 
         }
-        private void endOfGameText(Player player)
+        private void EndOfGameText(Player player)
         {
             Console.Clear();
             Console.WriteLine($"{player.Name}'s Final Statistics:");

@@ -21,7 +21,7 @@ namespace LemonadeStand
         //Contr
 
         //MembMeth
-
+        public abstract bool SetUpForTheDay(Store store);
         public void UpdateTotalCupsSold()
         {
             TotalCupsSold += CupsSoldToday;
@@ -30,7 +30,6 @@ namespace LemonadeStand
         {
             CupsSoldToday = 0;
         }
-        
         public void PrintResources()
         {
             inventory.PrintInventory();

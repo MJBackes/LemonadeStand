@@ -29,7 +29,7 @@ namespace LemonadeStand
             isDoneShopping = false;
         }
         //MembMeth
-        public void SellToPlayer(Player player)
+        public void SellToHumanPlayer(Player player)
         {
             isDoneShopping = false;
             do
@@ -117,22 +117,22 @@ namespace LemonadeStand
         }
         private void SellLemons(Player player, int purchaseSize)
         {
-            double saleTotal = getSaleTotalLemons(purchaseSize);
+            double saleTotal = getSaleTotal_Lemons(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
-                UpdatePlayerTraitsLemons(player, purchaseSize);
+                UpdatePlayerTraits_Lemons(player, purchaseSize);
             }
             else
             {
                 PrintIfPurchaseTooLarge();
             }
         }
-        private void UpdatePlayerTraitsLemons(Player player,int purchaseSize)
+        private void UpdatePlayerTraits_Lemons(Player player,int purchaseSize)
         {
             player.inventory.LemonStock += purchaseSize;
             player.wallet.Money -= (lemonPrice * purchaseSize);
         }
-        private double getSaleTotalLemons(int purchaseSize)
+        private double getSaleTotal_Lemons(int purchaseSize)
         {
             if(purchaseSize > 50)
             {
@@ -149,22 +149,22 @@ namespace LemonadeStand
         }
         private void SellSugar(Player player, int purchaseSize)
         {
-            double saleTotal = getSaleTotalSugar(purchaseSize);
+            double saleTotal = getSaleTotal_Sugar(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
-                UpdatePlayerTraitsSugar(player,purchaseSize);
+                UpdatePlayerTraits_Sugar(player,purchaseSize);
             }
             else
             {
                 PrintIfPurchaseTooLarge();
             }
         }
-        private void UpdatePlayerTraitsSugar(Player player, int purchaseSize)
+        private void UpdatePlayerTraits_Sugar(Player player, int purchaseSize)
         {
             player.inventory.SugarStock += purchaseSize;
             player.wallet.Money -= (sugarPrice * purchaseSize);
         }
-        private double getSaleTotalSugar(int purchaseSize)
+        private double getSaleTotal_Sugar(int purchaseSize)
         {
             if (purchaseSize > 40)
             {
@@ -181,22 +181,22 @@ namespace LemonadeStand
         }
         private void SellIce(Player player, int purchaseSize)
         {
-            double saleTotal = getSaleTotalIce(purchaseSize);
+            double saleTotal = getSaleTotal_Ice(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
-                UpdatePlayerTraitsIce(player, purchaseSize);
+                UpdatePlayerTraits_Ice(player, purchaseSize);
             }
             else
             {
                 PrintIfPurchaseTooLarge();
             }
         }
-        private void UpdatePlayerTraitsIce(Player player, int purchaseSize)
+        private void UpdatePlayerTraits_Ice(Player player, int purchaseSize)
         {
             player.inventory.IceStock += purchaseSize;
             player.wallet.Money -= (icePrice * purchaseSize);
         }
-        private double getSaleTotalIce(int purchaseSize)
+        private double getSaleTotal_Ice(int purchaseSize)
         {
             if (purchaseSize > 250)
             {
@@ -213,22 +213,22 @@ namespace LemonadeStand
         }
         private void SellCups(Player player, int purchaseSize)
         {
-            double saleTotal = getSaleTotalCups(purchaseSize);
+            double saleTotal = getSaleTotal_Cups(purchaseSize);
             if (player.wallet.Money >= saleTotal)
             {
-                UpdatePlayerTraitsCups(player, purchaseSize);
+                UpdatePlayerTraits_Cups(player, purchaseSize);
             }
             else
             {
                 PrintIfPurchaseTooLarge();
             }
         }
-        private void UpdatePlayerTraitsCups(Player player, int purchaseSize)
+        private void UpdatePlayerTraits_Cups(Player player, int purchaseSize)
         {
             player.inventory.CupStock += purchaseSize;
             player.wallet.Money -= (cupPrice * purchaseSize);
         }
-        private double getSaleTotalCups(int purchaseSize)
+        private double getSaleTotal_Cups(int purchaseSize)
         {
             if (purchaseSize > 250)
             {

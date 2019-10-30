@@ -12,6 +12,9 @@ namespace LemonadeStand
         private double Interest;
         private int CustomerNumber;
         private double preferedNumberOfIceCubes;
+        private double preferedNumberOfLemons;
+        private double preferedNumberOfCupsOfSugar;
+        private double preferedPrice;
         private double variance;
         private Random rng;
         //Contr
@@ -20,6 +23,9 @@ namespace LemonadeStand
             this.rng = rng;
             Interest = getInterest(temp, conditions);
             preferedNumberOfIceCubes = getNumberOfCubes(temp);
+            preferedNumberOfLemons = getNumberOfLemons();
+            preferedNumberOfCupsOfSugar = getNumberOfSugars();
+            preferedPrice = getPreferedPrice();
             CustomerNumber = CustNum;
             variance = rng.NextDouble() ;
         }
@@ -34,6 +40,20 @@ namespace LemonadeStand
         {
             double cubes = (temp - 50) / 5;
             return cubes;
+        }
+        private double getNumberOfLemons()
+        {
+           return rng.Next(4, 7);
+        }
+        private double getNumberOfSugars()
+        {
+            return rng.Next(5, 8);
+        }
+        private double getPreferedPrice()
+        {
+            double desiredPrice = rng.Next(9, 14);
+            desiredPrice /= 100;
+            return desiredPrice;
         }
         private double getInterest(double temp,string conditions)
         {
@@ -70,27 +90,22 @@ namespace LemonadeStand
         }
         private void adjustInterestBasedOnLemons(int numLemons)
         {
-            double desiredLemons = rng.Next(4, 7);
-            double adjustment = (numLemons / desiredLemons);
+            double adjustment = (numLemons / preferedNumberOfLemons);
             Interest *= adjustment;
         }
         private void adjustInterestBasedOnSugar(int cupsOfSugar)
         {
-            double desiredSugar = rng.Next(5, 7);
-            double adjustment = (cupsOfSugar / desiredSugar);
+            double adjustment = (cupsOfSugar / preferedNumberOfCupsOfSugar);
             Interest *= adjustment;
         }
-        private void adjustInterestBasedOnIce(int cubesOfIce)
+        private void adjustInterestBasedOnIce(int actualNumberOfIceCubes)
         {
-            double actualNumberOfIceCubes = cubesOfIce;
             double adjustment = (actualNumberOfIceCubes  / preferedNumberOfIceCubes);
             Interest *= adjustment;
         }
         private void adjustInterestBasedOnPrice(double price)
         {
-            double desiredPrice = rng.Next(9, 14);
-            desiredPrice /= 100;
-            double adjustment = (desiredPrice / price);
+            double adjustment = (preferedPrice / price);
             adjustment = Math.Pow(adjustment, 2);
             Interest *= adjustment;
         }

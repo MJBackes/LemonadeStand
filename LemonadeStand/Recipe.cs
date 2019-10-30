@@ -9,70 +9,86 @@ namespace LemonadeStand
     class Recipe
     {
         //MembVars
-        public int NumLemons;
-        public int CupsSugar;
-        public int NumIceCubes;
-        public double PricePerCup;
+        private int numLemons;
+        private int cupsSugar;
+        private int numIceCubes;
+        private double pricePerCup;
+        public double PricePerCup
+        {
+            get => pricePerCup;
+        }
+        public int NumIceCubes
+        {
+            get => numIceCubes;
+        }
+        public int CupsSugar
+        {
+            get => cupsSugar;
+        }
+        public int NumLemons
+        {
+            get => numLemons;
+        }
         //Contr
         public Recipe()
         {
-            NumLemons = 5;
-            NumIceCubes = 5;
-            CupsSugar = 5;
-            PricePerCup = .25;
+            numLemons = 5;
+            numIceCubes = 5;
+            cupsSugar = 5;
+            pricePerCup = .25;
         }
         //MembMeth
         public void PrintRecipe()
         {
-            Console.WriteLine($"Lemons per Pitcher: {NumLemons}");
-            Console.WriteLine($"Cups of Sugar per Pitcher: {CupsSugar}");
-            Console.WriteLine($"Number of Ice Cubes per Cup: {NumIceCubes}");
-            Console.WriteLine($"Price per Cup: {PricePerCup}");
+            Console.WriteLine($"Lemons per Pitcher: {numLemons}");
+            Console.WriteLine($"Cups of Sugar per Pitcher: {cupsSugar}");
+            Console.WriteLine($"Number of Ice Cubes per Cup: {numIceCubes}");
+            Console.WriteLine($"Price per Cup: {pricePerCup}");
         }
         public void ChangeLemons()
         {
             bool isValidInput;
             Console.Clear();
-            Console.WriteLine($"Current Lemons per Pitcher: {NumLemons}");
+            Console.WriteLine($"Current Lemons per Pitcher: {numLemons}");
             Console.WriteLine("Enter the new amount of Lemons per Pitcher:");
             do
             {
-                isValidInput = int.TryParse(Console.ReadLine(), out NumLemons);
-            } while (!isValidInput || NumLemons < 1);
+                isValidInput = int.TryParse(Console.ReadLine(), out numLemons);
+            } while (!isValidInput || numLemons < 1);
         }
         public void ChangeIce()
         {
             bool isValidInput;
             Console.Clear();
-            Console.WriteLine($"Current Ice Cubes per Cup: {NumIceCubes}");
+            Console.WriteLine($"Current Ice Cubes per Cup: {numIceCubes}");
             Console.WriteLine("Enter the new amount of Ice Cubes per Cup:");
             do
             {
-                isValidInput = int.TryParse(Console.ReadLine(), out NumIceCubes);
-            } while (!isValidInput || NumIceCubes < 0);
+                isValidInput = int.TryParse(Console.ReadLine(), out numIceCubes);
+            } while (!isValidInput || numIceCubes < 0);
         }
         public void ChangeSugar()
         {
             bool isValidInput;
             Console.Clear();
-            Console.WriteLine($"Current Cups of Sugar per Pitcher: {CupsSugar}");
+            Console.WriteLine($"Current Cups of Sugar per Pitcher: {cupsSugar}");
             Console.WriteLine("Enter the new amount of Cups of Sugar per Pitcher:");
             do
             {
-                isValidInput = int.TryParse(Console.ReadLine(), out CupsSugar);
-            } while (!isValidInput || CupsSugar < 0);
+                isValidInput = int.TryParse(Console.ReadLine(), out cupsSugar);
+            } while (!isValidInput || cupsSugar < 0);
         }
         public void ChangePrice()
         {
             bool isValidInput;
             Console.Clear();
-            Console.WriteLine($"Current Price of a Cup of Lemonade: {PricePerCup}");
+            Console.WriteLine($"Current Price of a Cup of Lemonade: {pricePerCup}");
             Console.WriteLine("Enter the new Price per Cup:");
             do
             {
-                isValidInput = double.TryParse(Console.ReadLine(), out PricePerCup);
-            } while (!isValidInput || PricePerCup < .01);
-            PricePerCup = Math.Round(PricePerCup * 100) / 100;
+                isValidInput = double.TryParse(Console.ReadLine(), out pricePerCup);
+            } while (!isValidInput || pricePerCup < .01);
+            pricePerCup = Math.Round(pricePerCup * 100) / 100;
         }
     }
 }

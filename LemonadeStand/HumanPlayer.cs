@@ -28,7 +28,7 @@ namespace LemonadeStand
         public override bool SetUpForTheDay(Store store,Weather todaysForecast)
         {
             string input;
-            UserInterface.PrintSetUpForTheDayText();
+            UserInterface.PrintSetUpForTheDayText(todaysForecast);
             input = Console.ReadLine();
             switch (input)
             {

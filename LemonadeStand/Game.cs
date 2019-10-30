@@ -111,19 +111,14 @@ namespace LemonadeStand
             }
             todaysForecast.ProbablilityOfAccurateForecast = ProbablilityOfAccurateForecast;
         }
-        private void PrintTodaysDate()
-        {
-            Console.WriteLine("Week: " + (weekIndex + 1) + " - Day: " + (dayIndex + 1));
-        }
         private void StartOfDay(Player player)
         {
             bool isDoneSettingUp;
+            UserInterface.PrintTodaysInfo(player,weekIndex, dayIndex, todaysForecast);
+            Console.ReadLine();
             do
             {
                 Console.Clear();
-                Console.WriteLine(player.Name);
-                PrintTodaysDate();
-                UserInterface.PrintTodaysForecast(todaysForecast);
                 isDoneSettingUp = player.SetUpForTheDay(store,todaysForecast);
             } while (!isDoneSettingUp);
         }
@@ -142,9 +137,7 @@ namespace LemonadeStand
         {
             Console.Clear();
             Console.WriteLine(player.Name);
-            UserInterface.PrintAccurateForecast(currentDay.weather);
-            UserInterface.PrintPlayersEndOfDayInfo(player);
-            UserInterface.PrintPlayerResources(player);
+            UserInterface.PrintDisplayTodaysInfoText(player, currentDay.weather);
             Console.ReadLine();
         }
         private void ChangeToNextDay()

@@ -13,156 +13,268 @@ namespace LemonadeStand
         //Const
 
         //MembMeth
-        public static void PrintGetNumberOfWeeksText()
+        private static void PrintTodaysForecast(Weather todaysForecast)
         {
-            Console.Clear();
-            Console.WriteLine("How many weeks do you want to play(1-5)?");
+            WriteFullLine("Today's Forecast:");
+            WriteFullLine($"    Temperature: {todaysForecast.Temperature}");
+            WriteFullLine($"    Conditions: {todaysForecast.Conditions}");
+            WriteFullLine($"    Confidence: {todaysForecast.ProbablilityOfAccurateForecast}%");
         }
-        public static void DisplayRules()
+        private static void PrintTodaysDate(int weekIndex, int dayIndex)
         {
-            Console.Clear();
-            Console.WriteLine("SETUP");
-            Console.WriteLine(" -Enter your name and choose the number of weeks you would like to play(from 1 to 5).");
-            Console.WriteLine("MAIN GAME");
-            Console.WriteLine(" -Each day, you will be able to purchase ingredients and change your lemonade recipe and its cost.");
-            Console.WriteLine(" -There will be a number of people each day who walk past your stand,\n" +
-                "   their likelyhood to purchase your lemonade is based on several factors, including - but not limited to- :\n" +
-                "       Temperature\n" +
-                "       Weather conditions\n" +
-                "       How much sugar/lemon/ice is in the lemonade");
-            Console.WriteLine(" -Adjust your recipe and price in accordance with the weather in order to make more money than you\n" +
-                "spend on ingredients.");
+            WriteFullLine("Week: " + (weekIndex + 1) + " - Day: " + (dayIndex + 1));
         }
-        public static void PrintInstanciatePlayerText()
+        private static void PrintAccurateForecast(Weather weather)
         {
-            Console.Clear();
-            Console.WriteLine("1.Add another Human player.");
-            Console.WriteLine("2.Add another AI player.");
-            Console.WriteLine("3.Finish adding players.");
+            WriteFullLine("Today's actual weather:");
+            WriteFullLine($"Temperature: {weather.Temperature}");
+            WriteFullLine($"Conditions: {weather.Conditions}");
         }
-        public static void PrintTodaysForecast(Weather todaysForecast)
+        private static void PrintPlayersEndOfDayInfo(Player player)
         {
-            Console.WriteLine("Today's Forecast:");
-            Console.WriteLine($"    Temperature: {todaysForecast.Temperature}");
-            Console.WriteLine($"    Conditions: {todaysForecast.Conditions}");
-            Console.WriteLine($"    Confidence: {todaysForecast.ProbablilityOfAccurateForecast}%");
+            WriteFullLine($"Number of cups sold today: {player.CupsSoldToday}");
+            WriteFullLine($"Today's profit: {player.wallet.DailyProfit}");
+            WriteFullLine($"Total profit so far: {player.wallet.TotalProfit}");
         }
-        public static void PrintAccurateForecast(Weather weather)
+        private static void PrintInventory(Inventory inv)
         {
-            Console.Write("Today's actual weather:");
-            Console.WriteLine($"Temperature: {weather.Temperature}");
-            Console.WriteLine($"Conditions: {weather.Conditions}");
+            WriteFullLine($"Lemons: {inv.LemonStock}");
+            WriteFullLine($"Cups of Sugar: {inv.SugarStock}");
+            WriteFullLine($"Ice Cubes: {inv.IceStock}");
+            WriteFullLine($"Cups: {inv.CupStock}");
         }
-        public static void PrintPlayersEndOfDayInfo(Player player)
+        private static void PrintWallet(Wallet wallet)
         {
-            Console.WriteLine($"Number of cups sold today: {player.CupsSoldToday}");
-            Console.WriteLine($"Today's profit: {player.wallet.DailyProfit}");
-            Console.WriteLine($"Total profit so far: {player.wallet.TotalProfit}");
+            WriteFullLine($"Wallet: {wallet.Money}");
         }
-        public static void PrintPlayersResourcesLostAtEndOfDay(Player player)
-        {
-            Console.WriteLine($"Number of Ice Cubes that melted at the end of the Day: {player.inventory.IceCubesMeltedToday}");
-            Console.WriteLine($"Number of Lemons that spoiled today: {player.inventory.LemonsSpoiledToday}");
-        }
-        public static void PrintPlayersEndOfGameText(Player player)
-        {
-            Console.Clear();
-            Console.WriteLine($"{player.Name}'s Final Statistics:");
-            Console.WriteLine($"Total Profit: {player.wallet.TotalProfit}");
-            Console.WriteLine($"Total Cups Sold: {player.TotalCupsSold}");
-        }
-        public static void PrintGetPurchaseSizeText(Player player,string itemName,double itemPrice,int smallDiscountThreshold,int largeDiscountThreshold)
-        {
-            Console.WriteLine($"Price per {itemName}: {itemPrice}");
-            Console.WriteLine($"10% Discount on purchases of {smallDiscountThreshold} or more.");
-            Console.WriteLine($"15% Discount on purchases of {largeDiscountThreshold} or more.");
-            Console.WriteLine("Your Wallet: " + player.wallet.Money);
-            Console.WriteLine($"How many {itemName}(s) would you like to buy?");
-        }
-        public static void PrintGetItemToSellText(Player player)
-        {
-            Console.Clear();
-            PrintPlayerResources(player);
-            Console.WriteLine("1.Buy Lemons.");
-            Console.WriteLine("2.Buy Ice Cubes.");
-            Console.WriteLine("3.Buy Cups of Sugar.");
-            Console.WriteLine("4.Buy Cups");
-            Console.WriteLine("5.Return.");
-            Console.WriteLine("Enter the number coresponding to the purchase you would like to make or" +
-                " 5 to return to the previous screen.");
-        }
-        public static void PrintIfPurchaseTooLarge(Player player)
-        {
-            Console.Clear();
-            Console.WriteLine($"Store to {player.Name}: Not enough money to purchase that many.");
-            Console.ReadLine();
-        }
-        public static void PrintGetChangeRecipeInputText()
-        {
-            Console.WriteLine("1.Change Lemons per Pitcher.");
-            Console.WriteLine("2.Change Cups of Sugar per Pitcher.");
-            Console.WriteLine("3.Change Cubes of Ice per Cup.");
-            Console.WriteLine("4.Change Price per Cup.");
-            Console.WriteLine("5.Return.");
-            Console.WriteLine("Enter the number coresponding to the component you would like to change or 5 to return to the previous screen.");
-        }
-        public static void PrintRecipe(Recipe recipe)
-        {
-            Console.WriteLine($"Lemons per Pitcher: {recipe.NumLemons}");
-            Console.WriteLine($"Cups of Sugar per Pitcher: {recipe.CupsSugar}");
-            Console.WriteLine($"Number of Ice Cubes per Cup: {recipe.NumIceCubes}");
-            Console.WriteLine($"Price per Cup: {recipe.PricePerCup}");
-        }
-        public static void PrintInventory(Inventory inv)
-        {
-            Console.WriteLine($"Lemons: {inv.LemonStock}");
-            Console.WriteLine($"Cups of Sugar: {inv.SugarStock}");
-            Console.WriteLine($"Ice Cubes: {inv.IceStock}");
-            Console.WriteLine($"Cups: {inv.CupStock}");
-        }
-        public static void PrintWallet(Wallet wallet)
-        {
-            Console.WriteLine($"Wallet: {wallet.Money}");
-        }
-        public static void PrintPlayerResources(Player player)
+        private static void PrintPlayerResources(Player player)
         {
             PrintInventory(player.inventory);
             PrintWallet(player.wallet);
         }
+        private static void WriteFullLine(string input)
+        {
+            int maxLength = Console.WindowWidth - 1;
+            string output = input.PadRight(maxLength);
+            Console.WriteLine(output);
+        }
+        private static void FillGrassBlock(int rowsOfText)
+        {
+            for(int i = rowsOfText; i < 13; i++)
+            {
+                WriteFullLine(" ");
+            }
+        }
+        //////////////
+        public static void PrintBackgroundFirstHalf()
+        {
+            Console.Clear();
+            Console.BackgroundColor = ConsoleColor.Cyan;
+            for (int i = 0; i < 9; i++)
+            {
+                WriteFullLine("      ");
+            }
+            Console.BackgroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.Black;
+        }
+        public static void PrintBackgroundSecondHalf()
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                Console.BackgroundColor = ConsoleColor.Gray;
+                if (i == 4)
+                {
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                }
+                WriteFullLine("                                  ");
+            }
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        /// /////////
         public static void PrintGetNameText()
         {
-            Console.WriteLine("Enter your name:");
+            PrintBackgroundFirstHalf();
+            WriteFullLine("Enter your name:");
+            FillGrassBlock(1);
+            PrintBackgroundSecondHalf();
         }
-        public static void PrintSetUpForTheDayText()
+        public static void PrintTodaysInfo(Player player,int weekIndex, int dayIndex, Weather todaysForecast)
         {
-            Console.WriteLine("1.Purchase Ingredients.");
-            Console.WriteLine("2.Change Recipe.");
-            Console.WriteLine("3.Finish today's setup.");
-            Console.WriteLine("Enter 1 to go to the store, 2 to change your recipe, or 3 to finish setting up for the day.");
+            PrintBackgroundFirstHalf();
+            WriteFullLine(player.Name);
+            PrintTodaysDate(weekIndex, dayIndex);
+            PrintTodaysForecast(todaysForecast);
+            FillGrassBlock(6);
+            PrintBackgroundSecondHalf();
+        }
+        public static void PrintSetUpForTheDayText(Weather todaysForecast)
+        {
+            PrintBackgroundFirstHalf();
+            PrintTodaysForecast(todaysForecast);
+            WriteFullLine("1.Purchase Ingredients.");
+            WriteFullLine("2.Change Recipe.");
+            WriteFullLine("3.Finish today's setup.");
+            WriteFullLine("Enter 1 to go to the store, 2 to change your recipe, or 3 to finish setting up for the day.");
+            FillGrassBlock(8);
+            PrintBackgroundSecondHalf();
+        }
+        public static void PrintDisplayTodaysInfoText(Player player,Weather weather)
+        {
+            PrintBackgroundFirstHalf();
+            WriteFullLine(player.Name);
+            PrintAccurateForecast(weather);
+            PrintPlayersEndOfDayInfo(player);
+            PrintPlayerResources(player);
+            PrintBackgroundSecondHalf();
+        }
+        public static void PrintGetItemToSellText(Player player)
+        {
+            PrintBackgroundFirstHalf();
+            //Console.Clear();
+            PrintPlayerResources(player);
+            WriteFullLine("1.Buy Lemons.");
+            WriteFullLine("2.Buy Ice Cubes.");
+            WriteFullLine("3.Buy Cups of Sugar.");
+            WriteFullLine("4.Buy Cups");
+            WriteFullLine("5.Return.");
+            WriteFullLine("Enter the number coresponding to the purchase you would like to make or" +
+                " 5 to return to the previous screen.");
+            FillGrassBlock(11);
+            PrintBackgroundSecondHalf();
+        }
+        public static void DisplayRules()
+        {
+            PrintBackgroundFirstHalf();
+            // Console.Clear();
+            WriteFullLine("SETUP");
+            WriteFullLine(" -Enter your name and choose the number of weeks you would like to play(from 1 to 5).");
+            WriteFullLine("MAIN GAME");
+            WriteFullLine(" -Each day, you will be able to purchase ingredients and change your lemonade recipe and its cost.");
+            WriteFullLine(" -There will be a number of people each day who walk past your stand,");
+            WriteFullLine("   their likelyhood to purchase your lemonade is based on several factors, including - but not limited to- :");
+            WriteFullLine("       Temperature");
+            WriteFullLine("       Weather conditions");
+            WriteFullLine("       How much sugar/lemon/ice is in the lemonade");
+            WriteFullLine(" -Adjust your recipe and price in accordance with the weather in order to make more money than you");
+            WriteFullLine("spend on ingredients.");
+            FillGrassBlock(11);
+            PrintBackgroundSecondHalf();
+        }
+        public static void PrintGetNumberOfWeeksText()
+        {
+            PrintBackgroundFirstHalf();
+            //Console.Clear();
+            WriteFullLine("How many weeks do you want to play(1-5)?");
+            FillGrassBlock(1);
+            PrintBackgroundSecondHalf();
+        }
+        public static void PrintInstanciatePlayerText()
+        {
+            PrintBackgroundFirstHalf();
+            //Console.Clear();
+            WriteFullLine("1.Add another Human player.");
+            WriteFullLine("2.Add another AI player.");
+            WriteFullLine("3.Finish adding players.");
+            FillGrassBlock(3);
+            PrintBackgroundSecondHalf();
+        }
+        public static void PrintPlayersResourcesLostAtEndOfDay(Player player)
+        {
+            PrintBackgroundFirstHalf();
+            WriteFullLine($"Number of Ice Cubes that melted at the end of the Day: {player.inventory.IceCubesMeltedToday}");
+            WriteFullLine($"Number of Lemons that spoiled today: {player.inventory.LemonsSpoiledToday}");
+            FillGrassBlock(2);
+            PrintBackgroundSecondHalf();
+        }
+        public static void PrintPlayersEndOfGameText(Player player)
+        {
+            PrintBackgroundFirstHalf();
+            //Console.Clear();
+            WriteFullLine($"{player.Name}'s Final Statistics:");
+            WriteFullLine($"Total Profit: {player.wallet.TotalProfit}");
+            WriteFullLine($"Total Cups Sold: {player.TotalCupsSold}");
+            FillGrassBlock(3);
+            PrintBackgroundSecondHalf();
+        }
+        public static void PrintGetPurchaseSizeText(Player player, string itemName, double itemPrice, int smallDiscountThreshold, int largeDiscountThreshold)
+        {
+            PrintBackgroundFirstHalf();
+            PrintPlayerResources(player);
+            WriteFullLine($"Price per {itemName}: {itemPrice}");
+            WriteFullLine($"10% Discount on purchases of {smallDiscountThreshold} or more.");
+            WriteFullLine($"15% Discount on purchases of {largeDiscountThreshold} or more.");
+            WriteFullLine("Your Wallet: " + player.wallet.Money);
+            WriteFullLine($"How many {itemName}(s) would you like to buy?");
+            FillGrassBlock(11);
+            PrintBackgroundSecondHalf();
+        }
+        public static void PrintIfPurchaseTooLarge(Player player)
+        {
+            PrintBackgroundFirstHalf();
+            //Console.Clear();
+            WriteFullLine($"Store to {player.Name}: Not enough money to purchase that many.");
+            FillGrassBlock(1);
+            Console.ReadLine();
+            PrintBackgroundSecondHalf();
+        }
+        public static void PrintGetChangeRecipeInputText()
+        {
+            PrintBackgroundFirstHalf();
+            WriteFullLine("1.Change Lemons per Pitcher.");
+            WriteFullLine("2.Change Cups of Sugar per Pitcher.");
+            WriteFullLine("3.Change Cubes of Ice per Cup.");
+            WriteFullLine("4.Change Price per Cup.");
+            WriteFullLine("5.Return.");
+            WriteFullLine("Enter the number coresponding to the component you would like to change or 5 to return to the previous screen.");
+            FillGrassBlock(6);
+            PrintBackgroundSecondHalf();
+        }
+        public static void PrintRecipe(Recipe recipe)
+        {
+            PrintBackgroundFirstHalf();
+            WriteFullLine($"Lemons per Pitcher: {recipe.NumLemons}");
+            WriteFullLine($"Cups of Sugar per Pitcher: {recipe.CupsSugar}");
+            WriteFullLine($"Number of Ice Cubes per Cup: {recipe.NumIceCubes}");
+            WriteFullLine($"Price per Cup: {recipe.PricePerCup}");
+            FillGrassBlock(4);
+            PrintBackgroundSecondHalf();
         }
         public static void PrintChangePriceText(double pricePerCup)
         {
-            Console.Clear();
-            Console.WriteLine($"Current Price of a Cup of Lemonade: {pricePerCup}");
-            Console.WriteLine("Enter the new Price per Cup:");
+            PrintBackgroundFirstHalf();
+            //Console.Clear();
+            WriteFullLine($"Current Price of a Cup of Lemonade: {pricePerCup}");
+            WriteFullLine("Enter the new Price per Cup:");
+            FillGrassBlock(4);
+            PrintBackgroundSecondHalf();
         }
         public static void PrintChangeSugarText(int cupsSugar)
         {
-            Console.Clear();
-            Console.WriteLine($"Current Cups of Sugar per Pitcher: {cupsSugar}");
-            Console.WriteLine("Enter the new amount of Cups of Sugar per Pitcher:");
+            PrintBackgroundFirstHalf();
+            //Console.Clear();
+            WriteFullLine($"Current Cups of Sugar per Pitcher: {cupsSugar}");
+            WriteFullLine("Enter the new amount of Cups of Sugar per Pitcher:");
+            FillGrassBlock(2);
+            PrintBackgroundSecondHalf();
         }
         public static void PrintChangeIceText(int numIceCubes)
         {
-            Console.Clear();
-            Console.WriteLine($"Current Ice Cubes per Cup: {numIceCubes}");
-            Console.WriteLine("Enter the new amount of Ice Cubes per Cup:");
+            PrintBackgroundFirstHalf();
+            //Console.Clear();
+            WriteFullLine($"Current Ice Cubes per Cup: {numIceCubes}");
+            WriteFullLine("Enter the new amount of Ice Cubes per Cup:");
+            FillGrassBlock(2);
+            PrintBackgroundSecondHalf();
         }
         public static void PrintChangeLemonsText(int numLemons)
         {
-            Console.Clear();
-            Console.WriteLine($"Current Lemons per Pitcher: {numLemons}");
-            Console.WriteLine("Enter the new amount of Lemons per Pitcher:");
+            PrintBackgroundFirstHalf();
+            //Console.Clear();
+            WriteFullLine($"Current Lemons per Pitcher: {numLemons}");
+            WriteFullLine("Enter the new amount of Lemons per Pitcher:");
+            FillGrassBlock(2);
+            PrintBackgroundSecondHalf();
         }
     }
 }

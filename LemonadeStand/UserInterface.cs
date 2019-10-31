@@ -35,8 +35,22 @@ namespace LemonadeStand
         {
             WriteFullLine($"Number of sales today: {player.CupsSoldToday}");
             WriteFullLine($"Out of {day.Customers.Count} possible sales.");
-            WriteFullLine($"Today's profit: {player.wallet.DailyProfit}");
-            WriteFullLine($"Total profit so far: {player.wallet.TotalProfit}");
+            if (player.wallet.DailyProfit >= 0)
+            {
+                WriteFullLine($"Today's profit: {player.wallet.DailyProfit}");
+            }
+            else
+            {
+                WriteFullLine($"Today's Loss: {player.wallet.DailyProfit}");
+            }
+            if (player.wallet.TotalProfit >= 0)
+            {
+                WriteFullLine($"Total profit so far: {player.wallet.TotalProfit}");
+            }
+            else
+            {
+                WriteFullLine($"Total Loss so far: {player.wallet.TotalProfit}");
+            }
         }
         private static void PrintInventory(Inventory inv)
         {
@@ -204,7 +218,14 @@ namespace LemonadeStand
         {
             PrintBackgroundFirstHalf();
             WriteFullLine($"{player.Name}'s Final Statistics:");
-            WriteFullLine($"Total Profit: {player.wallet.TotalProfit}");
+            if (player.wallet.TotalProfit >= 0)
+            {
+                WriteFullLine($"Total Profit: {player.wallet.TotalProfit}");
+            }
+            else
+            {
+                WriteFullLine($"Total Loss: {player.wallet.TotalProfit}");
+            }
             WriteFullLine($"Total Cups Sold: {player.TotalCupsSold}");
             FillGrassBlock(3);
             PrintBackgroundSecondHalf();
@@ -229,16 +250,17 @@ namespace LemonadeStand
             Console.ReadLine();
             PrintBackgroundSecondHalf();
         }
-        public static void PrintGetChangeRecipeInputText()
+        public static void PrintGetChangeRecipeInputText(Recipe recipe)
         {
             PrintBackgroundFirstHalf();
+            PrintRecipeContents(recipe);
             WriteFullLine("1.Change Lemons per Pitcher.");
             WriteFullLine("2.Change Cups of Sugar per Pitcher.");
             WriteFullLine("3.Change Cubes of Ice per Cup.");
             WriteFullLine("4.Change Price per Cup.");
             WriteFullLine("5.Return.");
             WriteFullLine("Enter the number coresponding to the component you would like to change or 5 to return to the previous screen.");
-            FillGrassBlock(6);
+            FillGrassBlock(10);
             PrintBackgroundSecondHalf();
         }
         public static void PrintRecipe(Recipe recipe)

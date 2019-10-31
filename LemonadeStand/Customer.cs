@@ -10,11 +10,8 @@ namespace LemonadeStand
     {
         //MembVars
         private double Interest;
-        private double preferredNumberOfIceCubes;
-        private double preferredNumberOfLemons;
-        private double preferredNumberOfCupsOfSugar;
-        private double preferredPrice;
-        private double variance;
+        private IdealLemonade MyPreferredLemonade;
+        private double HowInterestedINeedToBeToBuy;
         private Random rng;
         public List<double> LoyaltyList;
         //Contr
@@ -22,6 +19,7 @@ namespace LemonadeStand
         {
             this.rng = rng;
             LoyaltyList = new List<double>();
+            MyPreferredLemonade = new IdealLemonade();
         }
         //MembMeth
         public void PrepareForNewDay(Weather weather)
@@ -29,12 +27,12 @@ namespace LemonadeStand
             double temp = weather.Temperature;
             string conditions = weather.Conditions;
             Interest = getInterest(temp, conditions);
-            preferredNumberOfIceCubes = getNumberOfCubes(temp);
-            preferredNumberOfLemons = getNumberOfLemons();
-            preferredNumberOfCupsOfSugar = getNumberOfSugars();
-            preferredPrice = getPreferedPrice();
-            variance = rng.Next(25, 50);
-            variance /= 100;
+            MyPreferredLemonade.PreferredNumberOfIceCubes = getNumberOfCubes(temp);
+            MyPreferredLemonade.PreferredNumberOfLemons = getNumberOfLemons();
+            MyPreferredLemonade.PreferredNumberOfCupsOfSugar = getNumberOfSugars();
+            MyPreferredLemonade.PreferredPrice = getPreferedPrice();
+            HowInterestedINeedToBeToBuy = rng.Next(25, 50);
+            HowInterestedINeedToBeToBuy /= 100;
         }
         private double getBaseInterest()
         {
@@ -66,9 +64,9 @@ namespace LemonadeStand
             double baseInterest = getBaseInterest();
             double rainyMultiplier = .5;
             double cloudyMultiplier = .8;
-            double hazeyMultiplier = 1.5;
+            double hazeyMultiplier = 1.25;
             double windyMultiplier = .9;
-            double sunnyMultiplier = 1.25;
+            double sunnyMultiplier = 1.15;
             double interest = baseInterest;
             double tempMultiplier = temp / 60;
             tempMultiplier = Math.Pow(tempMultiplier, 3);
@@ -103,12 +101,12 @@ namespace LemonadeStand
         }
         private double SatisfactionBasedOnLemons(int numLemons)
         {
-            double adjustment = (numLemons / preferredNumberOfLemons);
+            double adjustment = (numLemons / MyPreferredLemonade.PreferredNumberOfLemons);
             return adjustment;
         }
         private double SatisfactionBasedOnSugar(int cupsOfSugar)
         {
-            double adjustment = (cupsOfSugar / preferredNumberOfCupsOfSugar);
+            double adjustment = (cupsOfSugar / MyPreferredLemonade.PreferredNumberOfCupsOfSugar);
             return adjustment;
         }
         public double GetSatisfactionBasedOnRecipe(Recipe recipe)
@@ -131,13 +129,13 @@ namespace LemonadeStand
         }
         private void adjustInterestBasedOnIce(int actualNumberOfIceCubes)
         {
-            double difference = Math.Abs(actualNumberOfIceCubes - preferredNumberOfIceCubes);
+            double difference = Math.Abs(actualNumberOfIceCubes - MyPreferredLemonade.PreferredNumberOfIceCubes);
             double adjustment = (8/(difference+7));
             Interest *= adjustment;
         }
         private void adjustInterestBasedOnPrice(double price)
         {
-            double adjustment = (preferredPrice / price);
+            double adjustment = (MyPreferredLemonade.PreferredPrice / price);
             adjustment = Math.Pow(adjustment, 2);
             Interest *= adjustment;
         }
@@ -150,7 +148,7 @@ namespace LemonadeStand
         public bool WillIPurchase(Recipe recipe,int playerIndex)
         {
             getInterestInRecipe(recipe,playerIndex);
-            if (variance <= Interest)
+            if (HowInterestedINeedToBeToBuy <= Interest)
             {
                 AdjustLoyaltyBasedOnSatisfaction(recipe, playerIndex);
                 return true;

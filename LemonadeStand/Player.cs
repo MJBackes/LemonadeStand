@@ -91,7 +91,7 @@ namespace LemonadeStand
         private string GetRecipeChangeInput()
         {
             string input;
-            UserInterface.PrintGetChangeRecipeInputText();
+            UserInterface.PrintGetChangeRecipeInputText(recipe);
             do
             {
                 input = Console.ReadLine();

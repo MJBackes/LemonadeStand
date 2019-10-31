@@ -11,11 +11,13 @@ namespace LemonadeStand
 
         //MembVars
         public Day[] DaysOfTheWeek;
+        private List<Customer> PotentialCustomers;
         public int WeekNum;
         Random rng;
         //Contr
-        public Week(int number,Random rng)
+        public Week(int number,Random rng,List<Customer> potCustomers)
         {
+            PotentialCustomers = potCustomers;
             WeekNum = number;
             this.rng = rng;
             DaysOfTheWeek = new Day[7];
@@ -26,7 +28,7 @@ namespace LemonadeStand
         {
             for(int i = 0; i < DaysOfTheWeek.Length; i++)
             {
-                DaysOfTheWeek[i] = new Day(rng);
+                DaysOfTheWeek[i] = new Day(rng,PotentialCustomers);
             }
         }
     }

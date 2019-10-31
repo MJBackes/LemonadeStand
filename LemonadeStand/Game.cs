@@ -10,6 +10,7 @@ namespace LemonadeStand
     {
         //MembVars
         public List<Player> players;
+        public List<Customer> PotentialCustomers;
         public int NumberOfWeeks;
         public List<Week> weeks;
         Store store;
@@ -24,8 +25,18 @@ namespace LemonadeStand
             rng = new Random();
             store = new Store();
             players = new List<Player>();
+            PotentialCustomers = new List<Customer>();
+            CreatePotentialCustomers();
         }
         //MembMeth
+        private void CreatePotentialCustomers()
+        {
+            int NumberOfCustomers = rng.Next(110, 120);
+            for (int i = 0; i < NumberOfCustomers; i++)
+            {
+                PotentialCustomers.Add(new Customer(rng));
+            }
+        }
         private int getNumberOfWeeks()
         {
             UserInterface.PrintGetNumberOfWeeksText();
@@ -43,10 +54,17 @@ namespace LemonadeStand
             weeks = new List<Week>();
             for(int i = 0; i < NumberOfWeeks; i++)
             {
-                weeks.Add(new Week(i + 1,rng));
+                weeks.Add(new Week(i + 1,rng,PotentialCustomers));
             }
             dayIndex = 0;
             weekIndex = 0;
+        }
+        private void SetUpCustomerLoyaltyLists()
+        {
+                foreach(Customer customer in PotentialCustomers)
+                {
+                    customer.SetUpCustomerLoyaltyList(players.Count);
+                }
         }
         private void displayRules()
         {
@@ -68,6 +86,7 @@ namespace LemonadeStand
         {
             InstanciatePlayers();
             instanciateWeeks();
+            SetUpCustomerLoyaltyLists();
         }
         private void InstanciatePlayers()
         {
@@ -82,10 +101,12 @@ namespace LemonadeStand
                 {
                     case "1":
                         players.Add(new HumanPlayer());
+                        players[players.Count - 1].PlayerNumber = playerNumber;
                         playerNumber++;
                         break;
                     case "2":
                         players.Add(new AIPlayer(playerNumber, rng));
+                        players[players.Count - 1].PlayerNumber = playerNumber;
                         playerNumber++;
                         break;
                     case "3":
@@ -101,7 +122,7 @@ namespace LemonadeStand
             currentDay = weeks[weekIndex].DaysOfTheWeek[dayIndex];
             double coinFlip = rng.NextDouble();
             double ProbablilityOfAccurateForecast = rng.NextDouble();
-            if (coinFlip > ProbablilityOfAccurateForecast)
+            if (coinFlip < ProbablilityOfAccurateForecast)
             {
                 todaysForecast = currentDay.weather;
             }
@@ -124,10 +145,10 @@ namespace LemonadeStand
         }
         private void OpenForBusiness(Player player)
         {
-            
             foreach(Customer customer in currentDay.Customers)
             {
-                if (customer.WillIPurchase(player.recipe))
+                customer.PrepareForNewDay(currentDay.weather);
+                if (customer.WillIPurchase(player.recipe,(player.PlayerNumber - 1)))
                 {
                     player.CustomerSale();
                 }
@@ -137,7 +158,7 @@ namespace LemonadeStand
         {
             Console.Clear();
             Console.WriteLine(player.Name);
-            UserInterface.PrintDisplayTodaysInfoText(player, currentDay.weather);
+            UserInterface.PrintDisplayTodaysInfoText(player, currentDay);
             Console.ReadLine();
         }
         private void ChangeToNextDay()

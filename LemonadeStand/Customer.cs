@@ -10,27 +10,35 @@ namespace LemonadeStand
     {
         //MembVars
         private double Interest;
-        private double preferedNumberOfIceCubes;
-        private double preferedNumberOfLemons;
-        private double preferedNumberOfCupsOfSugar;
-        private double preferedPrice;
+        private double preferredNumberOfIceCubes;
+        private double preferredNumberOfLemons;
+        private double preferredNumberOfCupsOfSugar;
+        private double preferredPrice;
         private double variance;
         private Random rng;
+        public List<double> LoyaltyList;
         //Contr
-        public Customer(double temp,string conditions,Random rng)
+        public Customer(Random rng)
         {
             this.rng = rng;
-            Interest = getInterest(temp, conditions);
-            preferedNumberOfIceCubes = getNumberOfCubes(temp);
-            preferedNumberOfLemons = getNumberOfLemons();
-            preferedNumberOfCupsOfSugar = getNumberOfSugars();
-            preferedPrice = getPreferedPrice();
-            variance = rng.NextDouble() ;
+            LoyaltyList = new List<double>();
         }
         //MembMeth
+        public void PrepareForNewDay(Weather weather)
+        {
+            double temp = weather.Temperature;
+            string conditions = weather.Conditions;
+            Interest = getInterest(temp, conditions);
+            preferredNumberOfIceCubes = getNumberOfCubes(temp);
+            preferredNumberOfLemons = getNumberOfLemons();
+            preferredNumberOfCupsOfSugar = getNumberOfSugars();
+            preferredPrice = getPreferedPrice();
+            variance = rng.Next(25, 50);
+            variance /= 100;
+        }
         private double getBaseInterest()
         {
-            double output = rng.Next(25, 50);
+            double output = rng.Next(25, 35);
             output /= 100;
             return output;
         }
@@ -49,7 +57,7 @@ namespace LemonadeStand
         }
         private double getPreferedPrice()
         {
-            double desiredPrice = rng.Next(9, 14);
+            double desiredPrice = rng.Next(20, 25);
             desiredPrice /= 100;
             return desiredPrice;
         }
@@ -86,39 +94,65 @@ namespace LemonadeStand
                     return interest;
             }
         }
-        private void adjustInterestBasedOnLemons(int numLemons)
+        public void SetUpCustomerLoyaltyList(int numberOfPlayers)
         {
-            double adjustment = (numLemons / preferedNumberOfLemons);
-            Interest *= adjustment;
+            for(int i = 0; i < numberOfPlayers; i++)
+            {
+                LoyaltyList.Add(.5);
+            }
         }
-        private void adjustInterestBasedOnSugar(int cupsOfSugar)
+        private double SatisfactionBasedOnLemons(int numLemons)
         {
-            double adjustment = (cupsOfSugar / preferedNumberOfCupsOfSugar);
-            Interest *= adjustment;
+            double adjustment = (numLemons / preferredNumberOfLemons);
+            return adjustment;
+        }
+        private double SatisfactionBasedOnSugar(int cupsOfSugar)
+        {
+            double adjustment = (cupsOfSugar / preferredNumberOfCupsOfSugar);
+            return adjustment;
+        }
+        public double GetSatisfactionBasedOnRecipe(Recipe recipe)
+        {
+            double lemonSat = SatisfactionBasedOnLemons(recipe.NumLemons);
+            double sugarSat = SatisfactionBasedOnSugar(recipe.CupsSugar);
+            return (lemonSat * sugarSat)/1.5;
+        }
+        private void AdjustLoyaltyBasedOnSatisfaction(Recipe recipe, int playerIndex)
+        {
+            LoyaltyList[playerIndex] *= GetSatisfactionBasedOnRecipe(recipe);
+            if(LoyaltyList[playerIndex] > 1)
+            {
+                LoyaltyList[playerIndex] = 1;
+            }
+        }
+        private void adjustInterestBasedOnLoyalty(int playerIndex)
+        {
+            Interest *= (LoyaltyList[playerIndex] / .75);
         }
         private void adjustInterestBasedOnIce(int actualNumberOfIceCubes)
         {
-            double adjustment = (actualNumberOfIceCubes  / preferedNumberOfIceCubes);
+            double difference = Math.Abs(actualNumberOfIceCubes - preferredNumberOfIceCubes);
+            double adjustment = (8/(difference+7));
             Interest *= adjustment;
         }
         private void adjustInterestBasedOnPrice(double price)
         {
-            double adjustment = (preferedPrice / price);
+            double adjustment = (preferredPrice / price);
             adjustment = Math.Pow(adjustment, 2);
             Interest *= adjustment;
         }
-        private void getInterestInRecipe(Recipe recipe)
+        private void getInterestInRecipe(Recipe recipe,int playerIndex)
         {
             adjustInterestBasedOnIce(recipe.NumIceCubes);
-            adjustInterestBasedOnLemons(recipe.NumLemons);
-            adjustInterestBasedOnSugar(recipe.CupsSugar);
             adjustInterestBasedOnPrice(recipe.PricePerCup);
+            adjustInterestBasedOnLoyalty(playerIndex);
         }
-        public bool WillIPurchase(Recipe recipe)
+        public bool WillIPurchase(Recipe recipe,int playerIndex)
         {
-            getInterestInRecipe(recipe);
+            getInterestInRecipe(recipe,playerIndex);
             if (variance <= Interest)
             {
+                AdjustLoyaltyBasedOnSatisfaction(recipe, playerIndex);
                 return true;
             }
             return false;

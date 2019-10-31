@@ -18,6 +18,7 @@ namespace LemonadeStand
         public bool isSoldOut;
         public int TotalCupsSold;
         public int CupsSoldToday;
+        public int PlayerNumber;
         private bool isBankrupt;
         public bool IsBankrupt
         {

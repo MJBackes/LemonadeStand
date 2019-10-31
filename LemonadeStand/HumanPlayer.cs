@@ -27,6 +27,7 @@ namespace LemonadeStand
         }
         public override bool SetUpForTheDay(Store store,Weather todaysForecast)
         {
+            isSoldOut = false;
             string input;
             UserInterface.PrintSetUpForTheDayText(todaysForecast);
             input = Console.ReadLine();

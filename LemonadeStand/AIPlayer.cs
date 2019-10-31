@@ -34,6 +34,7 @@ namespace LemonadeStand
         }
         public override bool SetUpForTheDay(Store store,Weather todaysForecast)
         {
+            isSoldOut = false;
             SetRecipe(todaysForecast);
             SetStandingReserves();
             PurchaseIngredients(store);
@@ -56,13 +57,21 @@ namespace LemonadeStand
         }
         private int GetNumberOfIceCubes(Weather todaysForecast)
         {
-            int max = Convert.ToInt32(todaysForecast.Temperature - 50) / 5;
-            return rng.Next(1,max);
+            return Convert.ToInt32((todaysForecast.Temperature - 50) / 5);
         }
         private double GetPrice(Weather todaysForecast)
         {
-            double price = todaysForecast.Temperature - 50;
-            price /= 100;
+            double multiplier = (todaysForecast.Temperature - 50) / 50;
+            double price = .4;
+            price *= multiplier;
+            if(price < .15)
+            {
+                price = .15;
+            }
+            if(price > .4)
+            {
+                price = .4;
+            }
             return price;
         }
         private void PurchaseIngredients(Store store)

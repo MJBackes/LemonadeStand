@@ -42,7 +42,7 @@ namespace LemonadeStand
             double coinFlip = rng.NextDouble();
             if(coinFlip > .75)
             {
-                int lemonsSpoiled = rng.Next(LemonStock);
+                int lemonsSpoiled = rng.Next(LemonStock/2);
                 lemonsSpoiledToday = lemonsSpoiled;
                 LemonStock -= lemonsSpoiled;
             }

@@ -31,9 +31,10 @@ namespace LemonadeStand
             WriteFullLine($"Temperature: {weather.Temperature}");
             WriteFullLine($"Conditions: {weather.Conditions}");
         }
-        private static void PrintPlayersEndOfDayInfo(Player player)
+        private static void PrintPlayersEndOfDayInfo(Player player,Day day)
         {
-            WriteFullLine($"Number of cups sold today: {player.CupsSoldToday}");
+            WriteFullLine($"Number of sales today: {player.CupsSoldToday}");
+            WriteFullLine($"Out of {day.Customers.Count} possible sales.");
             WriteFullLine($"Today's profit: {player.wallet.DailyProfit}");
             WriteFullLine($"Total profit so far: {player.wallet.TotalProfit}");
         }
@@ -72,6 +73,11 @@ namespace LemonadeStand
             WriteFullLine($"Cups of Sugar per Pitcher: {recipe.CupsSugar}");
             WriteFullLine($"Number of Ice Cubes per Cup: {recipe.NumIceCubes}");
             WriteFullLine($"Price per Cup: {recipe.PricePerCup}");
+        }
+        private static string ConvertDoubleToPercent(double dub)
+        {
+            dub *= 100;
+            return Math.Round(dub) + "%";
         }
         //////////////Background Methods
         public static void PrintBackgroundFirstHalf()
@@ -128,12 +134,12 @@ namespace LemonadeStand
             FillGrassBlock(9);
             PrintBackgroundSecondHalf();
         }
-        public static void PrintDisplayTodaysInfoText(Player player,Weather weather)
+        public static void PrintDisplayTodaysInfoText(Player player,Day day)
         {
             PrintBackgroundFirstHalf();
             WriteFullLine(player.Name);
-            PrintAccurateForecast(weather);
-            PrintPlayersEndOfDayInfo(player);
+            PrintAccurateForecast(day.weather);
+            PrintPlayersEndOfDayInfo(player,day);
             PrintPlayerResources(player);
             PrintBackgroundSecondHalf();
         }
@@ -173,7 +179,6 @@ namespace LemonadeStand
         public static void PrintGetNumberOfWeeksText()
         {
             PrintBackgroundFirstHalf();
-            //Console.Clear();
             WriteFullLine("How many weeks do you want to play(1-5)?");
             FillGrassBlock(1);
             PrintBackgroundSecondHalf();
@@ -181,7 +186,6 @@ namespace LemonadeStand
         public static void PrintInstanciatePlayerText()
         {
             PrintBackgroundFirstHalf();
-            //Console.Clear();
             WriteFullLine("1.Add another Human player.");
             WriteFullLine("2.Add another AI player.");
             WriteFullLine("3.Finish adding players.");
@@ -199,7 +203,6 @@ namespace LemonadeStand
         public static void PrintPlayersEndOfGameText(Player player)
         {
             PrintBackgroundFirstHalf();
-            //Console.Clear();
             WriteFullLine($"{player.Name}'s Final Statistics:");
             WriteFullLine($"Total Profit: {player.wallet.TotalProfit}");
             WriteFullLine($"Total Cups Sold: {player.TotalCupsSold}");
@@ -221,7 +224,6 @@ namespace LemonadeStand
         public static void PrintIfPurchaseTooLarge(Player player)
         {
             PrintBackgroundFirstHalf();
-            //Console.Clear();
             WriteFullLine($"Store to {player.Name}: Not enough money to purchase that many.");
             FillGrassBlock(1);
             Console.ReadLine();

@@ -18,6 +18,7 @@ namespace LemonadeStand
         //MainGame and RunGame functions that call the smaller functions.
         static void Main(string[] args)
         {
+            //APIHelper.InitializeAPIClient();
             Game game = new Game();
             game.RunGame();
             Console.Clear();

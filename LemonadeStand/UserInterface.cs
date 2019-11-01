@@ -127,6 +127,14 @@ namespace LemonadeStand
             FillGrassBlock(1);
             PrintBackgroundSecondHalf();
         }
+        public static void PrintChooseWeekTypeText()
+        {
+            PrintBackgroundFirstHalf();
+            WriteFullLine("1.Play with computer generated weather.");
+            WriteFullLine("2.Play with actual weather data");
+            FillGrassBlock(2);
+            PrintBackgroundSecondHalf();
+        }
         public static void PrintTodaysInfo(Player player,int weekIndex, int dayIndex, Weather todaysForecast)
         {
             PrintBackgroundFirstHalf();
@@ -136,9 +144,13 @@ namespace LemonadeStand
             FillGrassBlock(6);
             PrintBackgroundSecondHalf();
         }
-        public static void PrintSetUpForTheDayText(Weather todaysForecast)
+        public static void PrintSetUpForTheDayText(Weather todaysForecast,bool showCityName = false)
         {
             PrintBackgroundFirstHalf();
+            if (showCityName)
+            {
+                WriteFullLine(todaysForecast.Location);
+            }
             PrintTodaysForecast(todaysForecast);
             WriteFullLine("1.Purchase Ingredients.");
             WriteFullLine("2.Change Recipe.");

@@ -11,6 +11,7 @@ namespace LemonadeStand
         //MembVars
         public double Temperature;
         public string Conditions;
+        public string Location;
         private double probabilityOfAccurateForecast;
         private Random rng;
         public double ProbablilityOfAccurateForecast
@@ -25,7 +26,29 @@ namespace LemonadeStand
             Conditions = InitializeConditions();
             Temperature = this.rng.Next(55, 105);
         }
+        public Weather(CityWeatherData weatherData)
+        {
+            Conditions = ParseWeatherText(weatherData.WeatherText);
+            Temperature = weatherData.Temperature.Imperial.Value;
+            Location = weatherData.EnglishName;
+        }
         //MembMeth
+        private string ParseWeatherText(string weatherText)
+        {
+            weatherText = weatherText.ToLower();
+            if ((weatherText.Contains("sun") || weatherText.Contains("clear")) && !weatherText.Contains("cloud"))
+            {
+                return "Sunny and Clear";
+            }
+            else if (weatherText.Contains("cloud") || weatherText.Contains("overcast") || weatherText.Contains("fog"))
+            {
+                return "Cloudy";
+            }
+            else
+            {
+                return "Rainy";
+            }
+        }
         private string InitializeConditions()
         {
             int randomNumber = rng.Next(1, 6);

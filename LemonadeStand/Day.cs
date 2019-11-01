@@ -23,6 +23,14 @@ namespace LemonadeStand
             weather = new Weather(this.rng);
             FillCustomers();
         }
+        public Day(Random rng,List<Customer> potCustomers,CityWeatherData weatherData)
+        {
+            Customers = new List<Customer>();
+            PotentialCustomers = potCustomers;
+            this.rng = rng;
+            weather = new Weather(weatherData);
+            FillCustomers();
+        }
         //MembMeths
         private void FillCustomers()
         {

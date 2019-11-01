@@ -19,6 +19,7 @@ namespace LemonadeStand
         private Day currentDay;
         private Weather todaysForecast;
         private Random rng;
+        private bool showCityName;
         //Contr
         public Game()
         {
@@ -37,7 +38,7 @@ namespace LemonadeStand
                 PotentialCustomers.Add(new Customer(rng));
             }
         }
-        private int getNumberOfWeeks()
+        private int GetNumberOfWeeks()
         {
             UserInterface.PrintGetNumberOfWeeksText();
             int input;
@@ -48,16 +49,56 @@ namespace LemonadeStand
             } while (!isValidInput || input > 5 || input < 1);
             return input;
         }
-        private void instanciateWeeks()
+        private void InstanciateGeneratedWeeks()
         {
-            NumberOfWeeks = getNumberOfWeeks();
+            NumberOfWeeks = GetNumberOfWeeks();
             weeks = new List<Week>();
             for(int i = 0; i < NumberOfWeeks; i++)
             {
                 weeks.Add(new Week(i + 1,rng,PotentialCustomers));
+                weeks[i].FillDayArray();
             }
             dayIndex = 0;
             weekIndex = 0;
+        }
+        private void InstanciateActualWeeks()
+        {
+            NumberOfWeeks = GetNumberOfWeeks();
+            List<List<CityWeatherData>> WeeksOfActualWeather = GetWeeksOfWeatherData(NumberOfWeeks).Result;
+            weeks = new List<Week>();
+            for (int i = 0; i < NumberOfWeeks; i++)
+            {
+                weeks.Add(new ActualWeatherWeek(i + 1, rng, PotentialCustomers));
+                weeks[i].FillDayArray(WeeksOfActualWeather[i]);
+            }
+            dayIndex = 0;
+            weekIndex = 0;
+            showCityName = true;
+        }
+        private async Task<List<List<CityWeatherData>>> GetWeeksOfWeatherData(int numWeeks)
+        {
+            List<CityWeatherData> weatherList = await AccuweatherProcessor.GetWeather();
+            List<List<CityWeatherData>> output = new List<List<CityWeatherData>>();
+            for(int i = 0; i < numWeeks; i++)
+            {
+                output.Add(new List<CityWeatherData>());
+                for(int j = 0; j < 8; j++)
+                {
+                    output[i].Add(weatherList[(i * 7) + j]);
+                }
+            }
+            return output;
+        }
+        private int ChooseWeekType()
+        {
+            UserInterface.PrintChooseWeekTypeText();
+            int input;
+            bool isValidInput;
+            do
+            {
+                isValidInput = int.TryParse(Console.ReadLine(), out input);
+            } while (!isValidInput || (input != 1 && input != 2));
+            return input;
         }
         private void SetUpCustomerLoyaltyLists()
         {
@@ -66,14 +107,14 @@ namespace LemonadeStand
                     customer.SetUpCustomerLoyaltyList(players.Count);
                 }
         }
-        private void displayRules()
+        private void DisplayRules()
         {
             UserInterface.DisplayRules();
             Console.ReadLine();
         }
         public void RunGame()
         {
-            displayRules();
+            DisplayRules();
             SetUp();
             MainGame();
             foreach (Player player in players)
@@ -85,8 +126,23 @@ namespace LemonadeStand
         private void SetUp()
         {
             InstanciatePlayers();
-            instanciateWeeks();
+            InstanciateWeeks(ChooseWeekType());
             SetUpCustomerLoyaltyLists();
+        }
+        private void InstanciateWeeks(int weekType)
+        {
+            switch (weekType)
+            {
+                case 1:
+                    InstanciateGeneratedWeeks();
+                    break;
+                case 2:
+                    InstanciateActualWeeks();
+                    break;
+                default:
+                    InstanciateGeneratedWeeks();
+                    break;
+            }
         }
         private void InstanciatePlayers()
         {
@@ -110,7 +166,10 @@ namespace LemonadeStand
                         playerNumber++;
                         break;
                     case "3":
-                        areAllPlayerssetUp = true;
+                        if (playerNumber > 1)
+                        {
+                            areAllPlayerssetUp = true;
+                        }
                         break;
                     default:
                         break;
@@ -140,7 +199,7 @@ namespace LemonadeStand
             do
             {
                 Console.Clear();
-                isDoneSettingUp = player.SetUpForTheDay(store,todaysForecast);
+                isDoneSettingUp = player.SetUpForTheDay(store,todaysForecast,showCityName);
             } while (!isDoneSettingUp);
         }
         private void OpenForBusiness(Player player)

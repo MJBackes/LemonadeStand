@@ -27,7 +27,7 @@ namespace LemonadeStand
         //Contr
 
         //MembMeth
-        public abstract bool SetUpForTheDay(Store store,Weather todaysForecast);
+        public abstract bool SetUpForTheDay(Store store,Weather todaysForecast,bool showCityName = false);
         public void UpdateTotalCupsSold()
         {
             TotalCupsSold += CupsSoldToday;

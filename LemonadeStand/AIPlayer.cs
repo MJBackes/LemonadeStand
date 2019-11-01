@@ -32,7 +32,7 @@ namespace LemonadeStand
             StandingNumberOfCups = 50;
             StandingNumberOfIceCubes = recipe.NumIceCubes * 50;
         }
-        public override bool SetUpForTheDay(Store store,Weather todaysForecast)
+        public override bool SetUpForTheDay(Store store, Weather todaysForecast, bool showCityName = false)
         {
             isSoldOut = false;
             SetRecipe(todaysForecast);

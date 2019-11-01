@@ -11,9 +11,9 @@ namespace LemonadeStand
 
         //MembVars
         public Day[] DaysOfTheWeek;
-        private List<Customer> PotentialCustomers;
+        protected List<Customer> PotentialCustomers;
         public int WeekNum;
-        Random rng;
+        public Random rng;
         //Contr
         public Week(int number,Random rng,List<Customer> potCustomers)
         {
@@ -21,10 +21,9 @@ namespace LemonadeStand
             WeekNum = number;
             this.rng = rng;
             DaysOfTheWeek = new Day[7];
-            FillDayArray();
         }
         //MembMeth
-        private void FillDayArray()
+        public virtual void FillDayArray(List<CityWeatherData> weatherList = null)
         {
             for(int i = 0; i < DaysOfTheWeek.Length; i++)
             {

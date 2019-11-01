@@ -26,7 +26,7 @@ namespace LemonadeStand
         {
             double temp = weather.Temperature;
             string conditions = weather.Conditions;
-            Interest = getInterest(temp, conditions);
+            getInterest(temp, conditions);
             MyPreferredLemonade.PreferredNumberOfIceCubes = getNumberOfCubes(temp);
             MyPreferredLemonade.PreferredNumberOfLemons = getNumberOfLemons();
             MyPreferredLemonade.PreferredNumberOfCupsOfSugar = getNumberOfSugars();
@@ -59,37 +59,45 @@ namespace LemonadeStand
             desiredPrice /= 100;
             return desiredPrice;
         }
-        private double getInterest(double temp,string conditions)
+        private void getInterest(double temp,string conditions)
         {
-            double baseInterest = getBaseInterest();
+            Interest = getBaseInterest();
+            AdjustInterestBasedOnConditions(conditions);
+            AdjustInterestBasedOnTemperature(temp);
+
+        }
+        private void AdjustInterestBasedOnTemperature(double temp)
+        {
+            double tempMultiplier = temp / 60;
+            tempMultiplier = Math.Pow(tempMultiplier, 3);
+            Interest *= tempMultiplier;
+        }
+        private void AdjustInterestBasedOnConditions(string conditions)
+        {
             double rainyMultiplier = .5;
             double cloudyMultiplier = .8;
             double hazeyMultiplier = 1.25;
             double windyMultiplier = .9;
             double sunnyMultiplier = 1.15;
-            double interest = baseInterest;
-            double tempMultiplier = temp / 60;
-            tempMultiplier = Math.Pow(tempMultiplier, 3);
-            interest *= tempMultiplier;
             switch (conditions)
             {
                 case "Rainy":
-                    interest *= rainyMultiplier;
-                    return interest;
+                    Interest *= rainyMultiplier;
+                    break;
                 case "Cloudy":
-                    interest *= cloudyMultiplier;
-                    return interest;
+                    Interest *= cloudyMultiplier;
+                    break;
                 case "Hazey":
-                    interest *= hazeyMultiplier;
-                    return interest;
+                    Interest *= hazeyMultiplier;
+                    break;
                 case "Windy":
-                    interest *= windyMultiplier;
-                    return interest;
+                    Interest *= windyMultiplier;
+                    break;
                 case "Sunny and Clear":
-                    interest *= sunnyMultiplier;
-                    return interest;
+                    Interest *= sunnyMultiplier;
+                    break;
                 default:
-                    return interest;
+                    break;
             }
         }
         public void SetUpCustomerLoyaltyList(int numberOfPlayers)

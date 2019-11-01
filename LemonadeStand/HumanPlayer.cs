@@ -25,11 +25,11 @@ namespace LemonadeStand
             UserInterface.PrintGetNameText();
             return Console.ReadLine();
         }
-        public override bool SetUpForTheDay(Store store,Weather todaysForecast)
+        public override bool SetUpForTheDay(Store store,Weather todaysForecast,bool showCityName)
         {
             isSoldOut = false;
             string input;
-            UserInterface.PrintSetUpForTheDayText(todaysForecast);
+            UserInterface.PrintSetUpForTheDayText(todaysForecast,showCityName);
             input = Console.ReadLine();
             switch (input)
             {

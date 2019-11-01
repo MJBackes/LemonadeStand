@@ -13,7 +13,7 @@ namespace LemonadeStand
         public List<Customer> PotentialCustomers;
         public int NumberOfWeeks;
         public List<Week> weeks;
-        Store store;
+        private Store store;
         private int dayIndex;
         private int weekIndex;
         private Day currentDay;

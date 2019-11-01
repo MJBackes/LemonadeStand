@@ -58,6 +58,7 @@
     <Compile Include="ActualWeatherWeek.cs" />
     <Compile Include="AIPlayer.cs" />
     <Compile Include="APIHelper.cs" />
+    <Compile Include="APIKeys.cs" />
     <Compile Include="CityWeatherData.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Day.cs" />

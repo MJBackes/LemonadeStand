@@ -21,7 +21,6 @@ namespace LemonadeStand
             APIHelper.InitializeAPIClient();
             Game game = new Game();
             game.RunGame();
-            Console.Clear();
             Console.ReadLine();
         }
     }

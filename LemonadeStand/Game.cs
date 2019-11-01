@@ -9,10 +9,10 @@ namespace LemonadeStand
     class Game
     {
         //MembVars
-        public List<Player> players;
-        public List<Customer> PotentialCustomers;
-        public int NumberOfWeeks;
-        public List<Week> weeks;
+        private List<Player> players;
+        private List<Customer> PotentialCustomers;
+        private int NumberOfWeeks;
+        private List<Week> weeks;
         private Store store;
         private int dayIndex;
         private int weekIndex;
@@ -245,7 +245,6 @@ namespace LemonadeStand
         private void DisplayTodaysInfo(Player player)
         {
             Console.Clear();
-            Console.WriteLine(player.Name);
             UserInterface.PrintDisplayTodaysInfoText(player, currentDay);
             Console.ReadLine();
         }

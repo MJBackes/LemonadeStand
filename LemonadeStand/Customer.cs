@@ -13,7 +13,7 @@ namespace LemonadeStand
         private IdealLemonade MyPreferredLemonade;
         private double HowInterestedINeedToBeToBuy;
         private Random rng;
-        public List<double> LoyaltyList;
+        private List<double> LoyaltyList;
         //Contr
         public Customer(Random rng)
         {
@@ -40,6 +40,10 @@ namespace LemonadeStand
         private double GetNumberOfCubes(double temp)
         {
             double cubes = (temp - 50) / 5;
+            if(cubes < 1)
+            {
+                cubes = 1;
+            }
             return cubes;
         }
         private double GetNumberOfLemons()

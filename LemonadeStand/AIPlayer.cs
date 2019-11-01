@@ -57,7 +57,15 @@ namespace LemonadeStand
         }
         private int GetNumberOfIceCubes(Weather todaysForecast)
         {
-            return Convert.ToInt32((todaysForecast.Temperature - 50) / 5);
+            int output = Convert.ToInt32((todaysForecast.Temperature - 50) / 5);
+            if(output < 1)
+            {
+                return 1;
+            }
+            else
+            {
+                return output;
+            }
         }
         private double GetPrice(Weather todaysForecast)
         {

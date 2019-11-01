@@ -82,7 +82,7 @@ namespace LemonadeStand
             for(int i = 0; i < numWeeks; i++)
             {
                 output.Add(new List<CityWeatherData>());
-                for(int j = 0; j < 8; j++)
+                for(int j = 0; j < 7; j++)
                 {
                     output[i].Add(weatherList[(i * 7) + j]);
                 }
@@ -187,7 +187,8 @@ namespace LemonadeStand
             }
             else
             {
-                todaysForecast = new Weather(rng);  
+                todaysForecast = new Weather(rng,currentDay.weather.Location);  
+
             }
             todaysForecast.ProbablilityOfAccurateForecast = ProbablilityOfAccurateForecast;
         }

@@ -149,7 +149,7 @@ namespace LemonadeStand
             PrintBackgroundFirstHalf();
             if (showCityName)
             {
-                WriteFullLine(todaysForecast.Location);
+                WriteFullLine($"Today's City : {todaysForecast.Location}");
             }
             PrintTodaysForecast(todaysForecast);
             WriteFullLine("1.Purchase Ingredients.");

@@ -20,11 +20,12 @@ namespace LemonadeStand
             set => probabilityOfAccurateForecast = Math.Floor(value * 100);
         }
         //Contr
-        public Weather(Random rng)
+        public Weather(Random rng,string location = "")
         {
             this.rng = rng;
             Conditions = InitializeConditions();
             Temperature = this.rng.Next(55, 105);
+            Location = location;
         }
         public Weather(CityWeatherData weatherData)
         {

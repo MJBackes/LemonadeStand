@@ -13,7 +13,7 @@ namespace LemonadeStand
         }
         public override void FillDayArray(List<CityWeatherData> weatherList)
         {
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < 7; i++) {
                 DaysOfTheWeek[i] = new Day(rng,PotentialCustomers,weatherList[i]);
                     }
         }

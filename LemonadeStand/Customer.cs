@@ -26,42 +26,46 @@ namespace LemonadeStand
         {
             double temp = weather.Temperature;
             string conditions = weather.Conditions;
-            getInterest(temp, conditions);
-            MyPreferredLemonade.PreferredNumberOfIceCubes = getNumberOfCubes(temp);
-            MyPreferredLemonade.PreferredNumberOfLemons = getNumberOfLemons();
-            MyPreferredLemonade.PreferredNumberOfCupsOfSugar = getNumberOfSugars();
-            MyPreferredLemonade.PreferredPrice = getPreferedPrice();
+            GetInterest(temp, conditions);
+            GetMyIdealLemonade(temp);
             HowInterestedINeedToBeToBuy = rng.Next(25, 50);
             HowInterestedINeedToBeToBuy /= 100;
         }
-        private double getBaseInterest()
+        private double GetBaseInterest()
         {
             double output = rng.Next(25, 35);
             output /= 100;
             return output;
         }
-        private double getNumberOfCubes(double temp)
+        private double GetNumberOfCubes(double temp)
         {
             double cubes = (temp - 50) / 5;
             return cubes;
         }
-        private double getNumberOfLemons()
+        private double GetNumberOfLemons()
         {
            return rng.Next(4, 7);
         }
-        private double getNumberOfSugars()
+        private double GetNumberOfSugars()
         {
             return rng.Next(5, 8);
         }
-        private double getPreferedPrice()
+        private double GetPreferedPrice()
         {
             double desiredPrice = rng.Next(20, 25);
             desiredPrice /= 100;
             return desiredPrice;
         }
-        private void getInterest(double temp,string conditions)
+        private void GetMyIdealLemonade(double temp)
         {
-            Interest = getBaseInterest();
+            MyPreferredLemonade.PreferredNumberOfIceCubes = GetNumberOfCubes(temp);
+            MyPreferredLemonade.PreferredNumberOfLemons = GetNumberOfLemons();
+            MyPreferredLemonade.PreferredNumberOfCupsOfSugar = GetNumberOfSugars();
+            MyPreferredLemonade.PreferredPrice = GetPreferedPrice();
+        }
+        private void GetInterest(double temp,string conditions)
+        {
+            Interest = GetBaseInterest();
             AdjustInterestBasedOnConditions(conditions);
             AdjustInterestBasedOnTemperature(temp);
 

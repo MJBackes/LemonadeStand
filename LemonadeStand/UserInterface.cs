@@ -105,7 +105,7 @@ namespace LemonadeStand
             Console.BackgroundColor = ConsoleColor.Yellow;
             Console.Write(" ".PadRight(((Console.WindowWidth) / 12)));
             Console.BackgroundColor = ConsoleColor.Gray;
-            Console.WriteLine(" ".PadRight(((Console.WindowWidth - 1) / 12)));
+            Console.WriteLine(" ".PadRight(((Console.WindowWidth) / 12) - 1));
         }
         //////////////Background Methods
         public static void PrintBackgroundFirstHalf()
@@ -141,6 +141,13 @@ namespace LemonadeStand
         {
             PrintBackgroundFirstHalf();
             WriteFullLine("Enter your name:");
+            FillGrassBlock(1);
+            PrintBackgroundSecondHalf();
+        }
+        public static void PrintAPIErrorText()
+        {
+            PrintBackgroundFirstHalf();
+            WriteFullLine("There was an error fetching the weather data, use computer generated weather instead?(Y/N)");
             FillGrassBlock(1);
             PrintBackgroundSecondHalf();
         }

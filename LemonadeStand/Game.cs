@@ -64,16 +64,44 @@ namespace LemonadeStand
         private void InstanciateActualWeeks()
         {
             NumberOfWeeks = GetNumberOfWeeks();
-            List<List<CityWeatherData>> WeeksOfActualWeather = GetWeeksOfWeatherData(NumberOfWeeks).Result;
-            weeks = new List<Week>();
-            for (int i = 0; i < NumberOfWeeks; i++)
+            try
             {
-                weeks.Add(new ActualWeatherWeek(i + 1, rng, PotentialCustomers));
-                weeks[i].FillDayArray(WeeksOfActualWeather[i]);
+                List<List<CityWeatherData>> WeeksOfActualWeather = GetWeeksOfWeatherData(NumberOfWeeks).Result;
+                weeks = new List<Week>();
+                for (int i = 0; i < NumberOfWeeks; i++)
+                {
+                    weeks.Add(new ActualWeatherWeek(i + 1, rng, PotentialCustomers));
+                    weeks[i].FillDayArray(WeeksOfActualWeather[i]);
+                }
+                dayIndex = 0;
+                weekIndex = 0;
+                showCityName = true;
             }
-            dayIndex = 0;
-            weekIndex = 0;
-            showCityName = true;
+            catch (Exception)
+            {
+                HandleAPIErrors();
+            }
+        }
+        private void HandleAPIErrors()
+        {
+            UserInterface.PrintAPIErrorText();
+            string input;
+            do
+            {
+                input = Console.ReadLine().ToLower();
+            } while (input != "y" && input != "n");
+            switch (input)
+            {
+                case "y":
+                    InstanciateGeneratedWeeks();
+                    break;
+                case "n":
+                    InstanciateActualWeeks();
+                    break;
+                default:
+                    InstanciateGeneratedWeeks();
+                    break;
+            }
         }
         private async Task<List<List<CityWeatherData>>> GetWeeksOfWeatherData(int numWeeks)
         {

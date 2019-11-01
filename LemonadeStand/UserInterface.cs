@@ -93,6 +93,20 @@ namespace LemonadeStand
             dub *= 100;
             return Math.Round(dub) + "%";
         }
+        private static void PrintBackgroundRoadStripe()
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                Console.BackgroundColor = ConsoleColor.Yellow;
+                Console.Write(" ".PadRight(((Console.WindowWidth) / 12)));
+                Console.BackgroundColor = ConsoleColor.Gray;
+                Console.Write(" ".PadRight(((Console.WindowWidth) / 12)));
+            }
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.Write(" ".PadRight(((Console.WindowWidth) / 12)));
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.WriteLine(" ".PadRight(((Console.WindowWidth - 1) / 12)));
+        }
         //////////////Background Methods
         public static void PrintBackgroundFirstHalf()
         {
@@ -112,9 +126,12 @@ namespace LemonadeStand
                 Console.BackgroundColor = ConsoleColor.Gray;
                 if (i == 4)
                 {
-                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    PrintBackgroundRoadStripe();
                 }
-                WriteFullLine("                                  ");
+                else
+                {
+                    WriteFullLine("                                  ");
+                }
             }
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
@@ -131,7 +148,7 @@ namespace LemonadeStand
         {
             PrintBackgroundFirstHalf();
             WriteFullLine("1.Play with computer generated weather.");
-            WriteFullLine("2.Play with actual weather data");
+            WriteFullLine("2.Play with actual weather data taken from multiple cities.");
             FillGrassBlock(2);
             PrintBackgroundSecondHalf();
         }

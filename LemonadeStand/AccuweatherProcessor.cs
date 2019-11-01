@@ -11,8 +11,10 @@ namespace LemonadeStand
     {
         public static async Task<List<CityWeatherData>> GetWeather()
         {
-            string url = "http://dataservice.accuweather.com/currentconditions/v1/topcities/50?apikey=";
-            HttpResponseMessage response = await APIHelper.APIClient.GetAsync(url);
+            string APIKEY = "";
+            string url = $"http://dataservice.accuweather.com/currentconditions/v1/topcities/50?apikey={APIKEY}";
+            using (HttpResponseMessage response = await APIHelper.APIClient.GetAsync(url))
+            {
                 if (response.IsSuccessStatusCode)
                 {
                     List<CityWeatherData> weatherList = await response.Content.ReadAsAsync<List<CityWeatherData>>();
@@ -22,6 +24,7 @@ namespace LemonadeStand
                 {
                     throw new Exception(response.ReasonPhrase);
                 }
+            }
         }    
     }
 }
